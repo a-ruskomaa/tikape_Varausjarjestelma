@@ -5,6 +5,8 @@
  */
 package varausjarjestelma;
 
+import java.util.List;
+
 /**
  *
  * @author aleks
@@ -14,17 +16,16 @@ public class Asiakas {
     private String nimi;
     private String email;
     private String puhelin;
-    private Varaus varaus;
+    private List<Varaus> varaukset;
 
     public Asiakas() {
     }
 
-    public Asiakas(Integer asiakasnumero, String nimi, String email, String puhelin, Varaus varaus) {
+    public Asiakas(Integer asiakasnumero, String nimi, String email, String puhelin) {
         this.asiakasnumero = asiakasnumero;
         this.nimi = nimi;
         this.email = email;
         this.puhelin = puhelin;
-        this.varaus = varaus;
     }
 
     public Integer getAsiakasnumero() {
@@ -59,17 +60,21 @@ public class Asiakas {
         this.puhelin = puhelin;
     }
 
-    public Varaus getVaraus() {
-        return varaus;
+    public List<Varaus> getVaraukset() {
+        return varaukset;
     }
 
-    public void setVaraus(Varaus varaus) {
-        this.varaus = varaus;
+    public void setVaraukset(List<Varaus> varaukset) {
+        this.varaukset = varaukset;
+    }
+
+    public void addVaraus(Varaus varaus) {
+        this.varaukset.add(varaus);
     }
 
     @Override
     public String toString() {
-        return "Asiakas{" + "asiakasnumero=" + asiakasnumero + ", nimi=" + nimi + ", email=" + email + ", puhelin=" + puhelin + ", varaus=" + varaus + '}';
+        return "Asiakas{" + "asiakasnumero=" + asiakasnumero + ", nimi=" + nimi + ", email=" + email + ", puhelin=" + puhelin + ", varaukset=" + varaukset + '}';
     }
     
     

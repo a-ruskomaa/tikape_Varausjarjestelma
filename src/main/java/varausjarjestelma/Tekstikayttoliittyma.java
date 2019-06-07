@@ -12,20 +12,23 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 @Component
 public class Tekstikayttoliittyma {
-    
+
     @Autowired
     HuoneDAO HuoneDAO;
-    
+
     @Autowired
     AsiakasDAO AsiakasDAO;
-    
+
     @Autowired
     VarausDAO VarausDAO;
-    
+
     @Autowired
     JdbcTemplate JdbcTemplate;
 
     public void kaynnista(Scanner lukija) {
+        testaaHuoneita();
+        testaaAsiakasta();
+        testaaVarausta();
         while (true) {
             System.out.println("Komennot: ");
             System.out.println(" x - lopeta");
@@ -68,14 +71,14 @@ public class Tekstikayttoliittyma {
         int numero = Integer.valueOf(s.nextLine());
         System.out.println("Kuinka monta euroa huone maksaa yöltä?");
         int hinta = Integer.valueOf(s.nextLine());
-        
+
         Huone huone = new Huone(numero, tyyppi, (double) hinta);
         System.out.println(huone);
-        
+
         try {
-        HuoneDAO.create(huone);
+            HuoneDAO.create(huone);
         } catch (Exception e) {
-            System.out.println("SQL Error: " + e);
+            System.out.println("Error: " + e);
         }
     }
 
@@ -83,12 +86,13 @@ public class Tekstikayttoliittyma {
         System.out.println("Listataan huoneet");
         System.out.println("");
 
-        try { List<Huone> huoneet = HuoneDAO.list();
-            for (Huone huone: huoneet) {
+        try {
+            List<Huone> huoneet = HuoneDAO.list();
+            for (Huone huone : huoneet) {
                 System.out.println(huone);
-        }
+            }
         } catch (Exception e) {
-            System.out.println("SQL Error: " + e);
+            System.out.println("Error: " + e);
         }
 
         // esimerkkitulostus -- tässä oletetaan, että huoneita on 4
@@ -99,7 +103,7 @@ public class Tekstikayttoliittyma {
 //        System.out.println("Commodore, 128, 229 euroa");
     }
 
-    private static void haeHuoneita(Scanner s) {
+    private void haeHuoneita(Scanner s) {
         System.out.println("Haetaan huoneita");
         System.out.println("");
 
@@ -123,7 +127,7 @@ public class Tekstikayttoliittyma {
 
     }
 
-    private static void lisaaVaraus(Scanner s) {
+    private void lisaaVaraus(Scanner s) {
         System.out.println("Haetaan huoneita");
         System.out.println("");
 
@@ -183,7 +187,7 @@ public class Tekstikayttoliittyma {
         // -- varaukseen tulee lisätä kalleimmat vapaat huoneet!
     }
 
-    private static void listaaVaraukset() {
+    private void listaaVaraukset() {
         System.out.println("Listataan varaukset");
         System.out.println("");
 
@@ -204,7 +208,7 @@ public class Tekstikayttoliittyma {
 
     }
 
-    private static void tilastoja(Scanner lukija) {
+    private void tilastoja(Scanner lukija) {
         System.out.println("Mitä tilastoja tulostetaan?");
         System.out.println("");
 
@@ -228,7 +232,7 @@ public class Tekstikayttoliittyma {
         }
     }
 
-    private static void suosituimmatLisavarusteet() {
+    private void suosituimmatLisavarusteet() {
         System.out.println("Tulostetaan suosituimmat lisävarusteet");
         System.out.println("");
 
@@ -239,7 +243,7 @@ public class Tekstikayttoliittyma {
         System.out.println("Silitysrauta, 1 varaus");
     }
 
-    private static void parhaatAsiakkaat() {
+    private void parhaatAsiakkaat() {
         System.out.println("Tulostetaan parhaat asiakkaat");
         System.out.println("");
 
@@ -249,7 +253,7 @@ public class Tekstikayttoliittyma {
         System.out.println("Essi Esimerkki, essi@esimerkki.net, +358443214321, 229 euroa");
     }
 
-    private static void varausprosenttiHuoneittain(Scanner lukija) {
+    private void varausprosenttiHuoneittain(Scanner lukija) {
         System.out.println("Tulostetaan varausprosentti huoneittain");
         System.out.println("");
 
@@ -266,7 +270,7 @@ public class Tekstikayttoliittyma {
         System.out.println("Commodore, 128, 229 euroa, 62.8%");
     }
 
-    private static void varausprosenttiHuonetyypeittain(Scanner lukija) {
+    private void varausprosenttiHuonetyypeittain(Scanner lukija) {
         System.out.println("Tulostetaan varausprosentti huonetyypeittäin");
         System.out.println("");
 
@@ -280,6 +284,99 @@ public class Tekstikayttoliittyma {
         System.out.println("Excelsior, 0.0%");
         System.out.println("Superior, 22.8%");
         System.out.println("Commodore, 62.8%");
+    }
+
+    private void testaaHuoneita() {
+        
+        List<Huone> huoneet = new ArrayList();
+        huoneet.add(new Huone(101, "Standard", 100.0));
+        huoneet.add(new Huone(102, "Standard", 102.0));
+        huoneet.add(new Huone(201, "Suite", 200.0));
+        huoneet.add(new Huone(202, "Standard", 105.0));
+
+        for (Huone huone : huoneet) {
+            try {
+                HuoneDAO.create(huone);
+            } catch (Exception e) {
+                System.out.println("Huone error:" + e);
+            }
+        }
+        
+    }
+    
+    private void testaaAsiakasta() {
+
+        Asiakas asiakas = new Asiakas(-1, "Janne Makkonen", "janne.makkonen@net.fi", "0401231231");
+
+        try {
+            AsiakasDAO.create(new Asiakas(-1, "Anssi Apina", "anssin@maili.com", "0700123123"));
+        } catch (Exception e) {
+            System.out.println("Create error :" + e);
+        }
+        try {
+            AsiakasDAO.create(asiakas);
+        } catch (Exception e) {
+            System.out.println("Create error :" + e);
+        }
+
+        try {
+            System.out.println(AsiakasDAO.read(asiakas.getAsiakasnumero()));
+        } catch (Exception e) {
+            System.out.println("Read error :" + e);
+        }
+
+        asiakas.setPuhelin("0501212122");
+
+        try {
+            AsiakasDAO.update(asiakas);
+        } catch (Exception e) {
+            System.out.println("Update error :" + e);
+        }
+
+        try {
+            System.out.println(AsiakasDAO.read(asiakas.getAsiakasnumero()));
+        } catch (Exception e) {
+            System.out.println("Read error :" + e);
+        }
+
+        try {
+            System.out.println(AsiakasDAO.list());
+        } catch (Exception e) {
+            System.out.println("List error :" + e);
+        }
+    }
+
+    private void testaaVarausta() {
+        try {
+            Varaus varaus = new Varaus(-1, AsiakasDAO.read(1), "2018-07-03", "2018-07-12");
+            varaus.addHuone(HuoneDAO.read(101));
+            varaus.addHuone(HuoneDAO.read(102));
+            VarausDAO.create(varaus);
+            System.out.println("read:" + VarausDAO.read(varaus.getVarausnumero()));
+            varaus.setLoppupvm("2018-07-13");
+            System.out.println("update:" + VarausDAO.update(varaus));
+            System.out.println("read:" + VarausDAO.read(varaus.getVarausnumero()));
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        List<Huone> huoneet = new ArrayList();
+        huoneet.add(new Huone(101, "Standard", 100.0));
+        huoneet.add(new Huone(102, "Standard", 102.0));
+        
+        try {
+            VarausDAO.create(new Varaus(-1, AsiakasDAO.read(2), "2018-06-01", "2018-06-08", huoneet));
+        } catch (Exception e) {
+            System.out.println("Create error :" + e);
+        }
+
+
+        try {
+            System.out.println("list:" + VarausDAO.list());
+        } catch (Exception e) {
+            System.out.println("List error :" + e);
+        }
     }
 
 }

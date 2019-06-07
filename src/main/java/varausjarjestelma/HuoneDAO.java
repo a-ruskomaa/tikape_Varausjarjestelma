@@ -24,14 +24,12 @@ public class HuoneDAO implements DAO<Huone, Integer> {
     @Override
     public void create(Huone huone) {
         jdbcTemplate.update("INSERT INTO Huone (huonenumero, tyyppi, paivahinta) VALUES (?,?,?)", huone.getHuoneumero(), huone.getTyyppi(), huone.getPaivahinta());
-         System.out.println("huone lisätty!");
     }
 
     @Override
     public Huone read(Integer key) throws SQLException {
         Huone huone = jdbcTemplate.queryForObject(
-            "SELECT * FROM Huone WHERE huonenumero = ?",
-            new BeanPropertyRowMapper<>(Huone.class),
+            "SELECT huonenumero, tyyppi, paivahinta FROM Huone WHERE huonenumero = ?",(rs, rowNum) -> new Huone (rs.getInt("huonenumero"), rs.getString("tyyppi"), rs.getDouble("paivahinta")),
             key);
         return huone;
     }

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.Statement;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 /**
@@ -32,14 +33,14 @@ public class AsiakasDAO implements DAO<Asiakas, Integer> {
         jdbcTemplate.update(connection -> {
         PreparedStatement stmt = connection.prepareStatement("INSERT INTO Asiakas"
         + " (nimi, email, puhelin)"
-        + " VALUES (?, ?, ?)");
+        + " VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
         stmt.setString(1, asiakas.getNimi());
         stmt.setString(2, asiakas.getEmail());
         stmt.setString(3, asiakas.getPuhelin());
         return stmt;
         }, keyHolder);
         
-        asiakas.setAsiakasnumero((int) keyHolder.getKey());
+        asiakas.setAsiakasnumero(keyHolder.getKey().intValue());
     }
 
     @Override

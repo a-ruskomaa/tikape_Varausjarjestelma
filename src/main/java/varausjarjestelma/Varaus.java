@@ -23,16 +23,35 @@ public class Varaus {
 
     public Varaus() {
     }
-
-    public Varaus(Integer varausnumero, Asiakas asiakas, String alkupvm, String loppupvm, List<Huone> huoneet, List<Lisavaruste> lisavarusteet, Double yhteishinta) {
+    
+    public Varaus(Integer varausnumero, Asiakas asiakas, String alkupvm, String loppupvm, List<Huone> huoneet, List<Lisavaruste> lisavarusteet) {
         this.varausnumero = varausnumero;
         this.asiakas = asiakas;
         this.alkupvm = alkupvm;
         this.loppupvm = loppupvm;
         this.huoneet = huoneet;
         this.lisavarusteet = lisavarusteet;
-        this.yhteishinta = yhteishinta;
+    }    
+    
+    public Varaus(Integer varausnumero, Asiakas asiakas, String alkupvm, String loppupvm, List<Huone> huoneet) {
+        this.varausnumero = varausnumero;
+        this.asiakas = asiakas;
+        this.alkupvm = alkupvm;
+        this.loppupvm = loppupvm;
+        this.huoneet = huoneet;
+        this.lisavarusteet = new ArrayList<>();
     }
+
+    
+    public Varaus(Integer varausnumero, Asiakas asiakas, String alkupvm, String loppupvm) {
+        this.varausnumero = varausnumero;
+        this.asiakas = asiakas;
+        this.alkupvm = alkupvm;
+        this.loppupvm = loppupvm;
+        this.huoneet = new ArrayList<>();
+        this.lisavarusteet = new ArrayList<>();
+    }
+
 
     public Integer getVarausnumero() {
         return varausnumero;
@@ -70,7 +89,7 @@ public class Varaus {
         return huoneet;
     }
 
-    public void setHuoneet(List<Huone> huoneet) {
+    public void setHuoneet(ArrayList<Huone> huoneet) {
         this.huoneet = huoneet;
     }
     
@@ -96,8 +115,6 @@ public class Varaus {
 
     @Override
     public String toString() {
-        return "Varaus{" + "varausnumero=" + varausnumero + ", asiakas=" + asiakas + ", alkupvm=" + alkupvm + ", loppupvm=" + loppupvm + ", huoneet=" + huoneet + ", lisavarusteet=" + lisavarusteet + ", yhteishinta=" + yhteishinta + '}';
+        return asiakas.getNimi() + ", " + asiakas.getEmail() + ", " + alkupvm + ", " + loppupvm + ", paivia_yhteensa" + ", lisavarusteita_yhteensa" + huoneet.size() + "huonetta. Huoneet: \n" + "\n";
     }
-    
-    
 }
