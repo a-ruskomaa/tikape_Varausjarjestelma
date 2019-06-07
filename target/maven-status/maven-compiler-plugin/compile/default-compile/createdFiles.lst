@@ -1,0 +1,10 @@
+varausjarjestelma\Huone.class
+varausjarjestelma\Lisavaruste.class
+varausjarjestelma\AsiakasDAO.class
+varausjarjestelma\VarausDAO.class
+varausjarjestelma\Varaus.class
+varausjarjestelma\Asiakas.class
+varausjarjestelma\VarausjarjestelmaSovellus.class
+varausjarjestelma\Tekstikayttoliittyma.class
+varausjarjestelma\DAO.class
+varausjarjestelma\HuoneDAO.class

@@ -1,0 +1,99 @@
+2019-06-07 10:50:12 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Unknown data type: "TABLE"; SQL statement:
+
+ CREATE TABLE VarausLisavaruste (
+ Varausnumero INTEGER,
+ Varuste_id INTEGER,
+ PRIMARY KEY (varausnumero, varuste_id),
+ FOREIGN KEY (varausnumero) REFERENCES Varaus(varausnumero),
+ CREATE TABLE VarausHuone (
+ Varausnumero INTEGER,
+ Huone_no INTEGER,
+ Yhteishinta NUMERIC(9,2),
+ PRIMARY KEY(varausnumero, huone_no),
+ FOREIGN KEY (varausnumero) REFERENCES Varaus(varausnumero),
+ FOREIGN KEY (huone_no) REFERENCES Huone(huone_no));
+  [50004-197]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:357)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.Parser.parseColumnWithType(Parser.java:4400)
+	at org.h2.command.Parser.parseColumnForTable(Parser.java:4215)
+	at org.h2.command.Parser.parseTableColumnDefinition(Parser.java:6662)
+	at org.h2.command.Parser.parseCreateTable(Parser.java:6570)
+	at org.h2.command.Parser.parseCreate(Parser.java:4615)
+	at org.h2.command.Parser.parsePrepared(Parser.java:380)
+	at org.h2.command.Parser.parse(Parser.java:335)
+	at org.h2.command.Parser.parse(Parser.java:307)
+	at org.h2.command.Parser.prepareCommand(Parser.java:278)
+	at org.h2.engine.Session.prepareLocal(Session.java:611)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:32)
+	at org.h2.command.CommandList.update(CommandList.java:43)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:36)
+	at org.h2.command.CommandList.update(CommandList.java:43)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:36)
+	at org.h2.command.CommandList.update(CommandList.java:43)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:36)
+	at org.h2.command.CommandList.update(CommandList.java:43)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:36)
+	at org.h2.command.CommandList.update(CommandList.java:43)
+	at org.h2.command.Command.executeUpdate(Command.java:261)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdateInternal(JdbcPreparedStatement.java:199)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdate(JdbcPreparedStatement.java:153)
+	at varausjarjestelma.VarausjarjestelmaSovellus.alustaTietokanta(VarausjarjestelmaSovellus.java:75)
+	at varausjarjestelma.VarausjarjestelmaSovellus.main(VarausjarjestelmaSovellus.java:16)
+2019-06-07 10:51:12 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "
+ CREATE TABLE VARAUSLISAVARUSTE (
+ VARAUSNUMERO INTEGER,
+ VARUSTE_ID INTEGER,
+ PRIMARY KEY (VARAUSNUMERO, VARUSTE_ID),
+ FOREIGN KEY (VARAUSNUMERO) REFERENCES VARAUS(VARAUSNUMERO);[*]
+ CREATE TABLE VARAUSHUONE (
+ VARAUSNUMERO INTEGER,
+ HUONE_NO INTEGER,
+ YHTEISHINTA NUMERIC(9,2),
+ PRIMARY KEY(VARAUSNUMERO, HUONE_NO),
+ FOREIGN KEY (VARAUSNUMERO) REFERENCES VARAUS(VARAUSNUMERO),
+ FOREIGN KEY (HUONE_NO) REFERENCES HUONE(HUONE_NO));
+  "; expected "INDEX, ON, NOT, DEFERRABLE, NOCHECK, CHECK, ,, )"; SQL statement:
+
+ CREATE TABLE VarausLisavaruste (
+ Varausnumero INTEGER,
+ Varuste_id INTEGER,
+ PRIMARY KEY (varausnumero, varuste_id),
+ FOREIGN KEY (varausnumero) REFERENCES Varaus(varausnumero);
+ CREATE TABLE VarausHuone (
+ Varausnumero INTEGER,
+ Huone_no INTEGER,
+ Yhteishinta NUMERIC(9,2),
+ PRIMARY KEY(varausnumero, huone_no),
+ FOREIGN KEY (varausnumero) REFERENCES Varaus(varausnumero),
+ FOREIGN KEY (huone_no) REFERENCES Huone(huone_no));
+  [42001-197]
+2019-06-07 11:20:02 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TYYPPI" not found; SQL statement:
+
+ CREATE TABLE Huone (
+ huone_no INTEGER PRIMARY KEY,
+ tyyppi VARCHAR(20),
+ paivahinta NUMERIC(9,2),
+ FOREIGN KEY (tyyppi_id) REFERENCES Tyyppi(tyyppi_id));
+ CREATE TABLE Lisavaruste (
+ varuste_id INTEGER AUTO_INCREMENT PRIMARY KEY,
+ nimi VARCHAR(20),
+ hinta NUMERIC(6,2));
+ CREATE TABLE VarausLisavaruste (
+ varausnumero INTEGER,
+ varuste_id INTEGER,
+ PRIMARY KEY (varausnumero, varuste_id),
+ FOREIGN KEY (varausnumero) REFERENCES Varaus(varausnumero),
+ FOREIGN KEY (varuste_id) REFERENCES Lisavaruste(varuste_id)); 
+ CREATE TABLE VarausHuone (
+ varausnumero INTEGER,
+ huone_no INTEGER,
+ yhteishinta NUMERIC(9,2),
+ PRIMARY KEY(varausnumero, huone_no),
+ FOREIGN KEY (varausnumero) REFERENCES Varaus(varausnumero),
+ FOREIGN KEY (huone_no) REFERENCES Huone(huone_no));
+  [42102-197]
