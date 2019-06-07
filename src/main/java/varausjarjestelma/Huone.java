@@ -10,25 +10,25 @@ package varausjarjestelma;
  * @author aleks
  */
 public class Huone {
-    private Integer numero;
+    private Integer huonenumero;
     private String tyyppi;
     private Double paivahinta;
 
     public Huone() {
     }
 
-    public Huone(Integer numero, String tyyppi, Double paivahinta) {
-        this.numero = numero;
+    public Huone(Integer huonenumero, String tyyppi, Double paivahinta) {
+        this.huonenumero = huonenumero;
         this.tyyppi = tyyppi;
         this.paivahinta = paivahinta;
     }
 
-    public Integer getNumero() {
-        return numero;
+    public Integer getHuoneumero() {
+        return huonenumero;
     }
 
-    public void setNumero(Integer numero) {
-        this.numero = numero;
+    public void setHuoneumero(Integer huonenumero) {
+        this.huonenumero = huonenumero;
     }
 
     public String getTyyppi() {
@@ -45,6 +45,11 @@ public class Huone {
 
     public void setPaivahinta(Double paivahinta) {
         this.paivahinta = paivahinta;
+    }
+
+    @Override
+    public String toString() {
+        return tyyppi + ", " + huonenumero + ", " + paivahinta + " euroa";
     }
     
     

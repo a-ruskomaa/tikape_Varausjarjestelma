@@ -73,6 +73,10 @@ public class Varaus {
     public void setHuoneet(List<Huone> huoneet) {
         this.huoneet = huoneet;
     }
+    
+    public void addHuone (Huone huone) {
+        this.huoneet.add(huone);
+    }
 
     public List<Lisavaruste> getLisavarusteet() {
         return lisavarusteet;
@@ -88,6 +92,11 @@ public class Varaus {
 
     public void setYhteishinta(Double yhteishinta) {
         this.yhteishinta = yhteishinta;
+    }
+
+    @Override
+    public String toString() {
+        return "Varaus{" + "varausnumero=" + varausnumero + ", asiakas=" + asiakas + ", alkupvm=" + alkupvm + ", loppupvm=" + loppupvm + ", huoneet=" + huoneet + ", lisavarusteet=" + lisavarusteet + ", yhteishinta=" + yhteishinta + '}';
     }
     
     

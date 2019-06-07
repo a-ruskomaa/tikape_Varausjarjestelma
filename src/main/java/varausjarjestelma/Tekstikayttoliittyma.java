@@ -7,9 +7,23 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 @Component
 public class Tekstikayttoliittyma {
+    
+    @Autowired
+    HuoneDAO HuoneDAO;
+    
+    @Autowired
+    AsiakasDAO AsiakasDAO;
+    
+    @Autowired
+    VarausDAO VarausDAO;
+    
+    @Autowired
+    JdbcTemplate JdbcTemplate;
 
     public void kaynnista(Scanner lukija) {
         while (true) {
@@ -44,7 +58,7 @@ public class Tekstikayttoliittyma {
         }
     }
 
-    private static void lisaaHuone(Scanner s) {
+    private void lisaaHuone(Scanner s) {
         System.out.println("Lisätään huone");
         System.out.println("");
 
@@ -54,19 +68,35 @@ public class Tekstikayttoliittyma {
         int numero = Integer.valueOf(s.nextLine());
         System.out.println("Kuinka monta euroa huone maksaa yöltä?");
         int hinta = Integer.valueOf(s.nextLine());
-
+        
+        Huone huone = new Huone(numero, tyyppi, (double) hinta);
+        System.out.println(huone);
+        
+        try {
+        HuoneDAO.create(huone);
+        } catch (Exception e) {
+            System.out.println("SQL Error: " + e);
+        }
     }
 
-    private static void listaaHuoneet() {
+    private void listaaHuoneet() {
         System.out.println("Listataan huoneet");
         System.out.println("");
 
+        try { List<Huone> huoneet = HuoneDAO.list();
+            for (Huone huone: huoneet) {
+                System.out.println(huone);
+        }
+        } catch (Exception e) {
+            System.out.println("SQL Error: " + e);
+        }
+
         // esimerkkitulostus -- tässä oletetaan, että huoneita on 4
         // tulostuksessa tulostetaan huoneen tyyppi, huoneen numero sekä hinta
-        System.out.println("Excelsior, 604, 119 euroa");
-        System.out.println("Excelsior, 605, 119 euroa");
-        System.out.println("Superior, 705, 159 euroa");
-        System.out.println("Commodore, 128, 229 euroa");
+//        System.out.println("Excelsior, 604, 119 euroa");
+//        System.out.println("Excelsior, 605, 119 euroa");
+//        System.out.println("Superior, 705, 159 euroa");
+//        System.out.println("Commodore, 128, 229 euroa");
     }
 
     private static void haeHuoneita(Scanner s) {

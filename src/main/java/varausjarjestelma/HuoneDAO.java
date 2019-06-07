@@ -22,28 +22,35 @@ public class HuoneDAO implements DAO<Huone, Integer> {
     JdbcTemplate jdbcTemplate;
     
     @Override
-    public void create(Huone huone) throws SQLException {
-        jdbcTemplate.update("INSERT INTO Huone (huone_no, tyyppi, paivahinta) VALUES (?,?,?)", huone.getNumero(), huone.getTyyppi(), huone.getPaivahinta());
-    };
+    public void create(Huone huone) {
+        jdbcTemplate.update("INSERT INTO Huone (huonenumero, tyyppi, paivahinta) VALUES (?,?,?)", huone.getHuoneumero(), huone.getTyyppi(), huone.getPaivahinta());
+         System.out.println("huone lisätty!");
+    }
 
     @Override
     public Huone read(Integer key) throws SQLException {
-        return null;
-    };
+        Huone huone = jdbcTemplate.queryForObject(
+            "SELECT * FROM Huone WHERE huonenumero = ?",
+            new BeanPropertyRowMapper<>(Huone.class),
+            key);
+        return huone;
+    }
 
     @Override
     public Huone update(Huone huone) throws SQLException {
-        return null;
-    };
+        jdbcTemplate.update("UPDATE Huone SET tyyppi = ?, paivahinta = ? WHERE huonenumero = ?", huone.getTyyppi(), huone.getPaivahinta(), huone.getHuoneumero());
+        return huone;
+    }
 
     @Override
     public void delete(Integer key) throws SQLException {
-        
-    };
+        jdbcTemplate.update("DELETE FROM Huone WHERE huonenumero = ?;", key);
+    }
 
     @Override
     public List<Huone> list() throws SQLException {
-        return null;
-    };
+        return jdbcTemplate.query(
+        "SELECT * FROM Huone;",(rs, rowNum) -> new Huone (rs.getInt("huonenumero"), rs.getString("tyyppi"), rs.getDouble("paivahinta")));
+    }
     
 }

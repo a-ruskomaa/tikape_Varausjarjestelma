@@ -45,7 +45,7 @@ public class VarausjarjestelmaSovellus implements CommandLineRunner {
                                 + "FOREIGN KEY (asiakasnumero) REFERENCES Asiakas(asiakasnumero));\n "
 
                                 + "CREATE TABLE Huone (\n "
-                                + "huone_no INTEGER PRIMARY KEY,\n "
+                                + "huonenumero INTEGER PRIMARY KEY,\n "
                                 + "tyyppi VARCHAR(20),\n "
                                 + "paivahinta NUMERIC(9,2));\n "
 
@@ -63,11 +63,11 @@ public class VarausjarjestelmaSovellus implements CommandLineRunner {
 
                                 + "CREATE TABLE VarausHuone (\n "
                                 + "varausnumero INTEGER,\n "
-                                + "huone_no INTEGER,\n "
+                                + "huonenumero INTEGER,\n "
                                 + "yhteishinta NUMERIC(9,2),\n "
-                                + "PRIMARY KEY(varausnumero, huone_no),\n "
+                                + "PRIMARY KEY(varausnumero, huonenumero),\n "
                                 + "FOREIGN KEY (varausnumero) REFERENCES Varaus(varausnumero),\n "
-                                + "FOREIGN KEY (huone_no) REFERENCES Huone(huone_no));\n "
+                                + "FOREIGN KEY (huonenumero) REFERENCES Huone(huonenumero));\n "
                 ).executeUpdate();
             System.out.println("");
             System.out.println("---------- Tietokanta alustettu! ----------");

@@ -66,6 +66,11 @@ public class Asiakas {
     public void setVaraus(Varaus varaus) {
         this.varaus = varaus;
     }
+
+    @Override
+    public String toString() {
+        return "Asiakas{" + "asiakasnumero=" + asiakasnumero + ", nimi=" + nimi + ", email=" + email + ", puhelin=" + puhelin + ", varaus=" + varaus + '}';
+    }
     
     
 }

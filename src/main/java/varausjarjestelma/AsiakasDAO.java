@@ -11,6 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 /**
  *
  * @author aleks
@@ -22,28 +27,47 @@ public class AsiakasDAO implements DAO<Asiakas, Integer> {
     JdbcTemplate jdbcTemplate;
     
     @Override
-    public void create(Asiakas asiakas) throws SQLException {
+    public void create(Asiakas asiakas) throws SQLException {    
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+        PreparedStatement stmt = connection.prepareStatement("INSERT INTO Asiakas"
+        + " (nimi, email, puhelin)"
+        + " VALUES (?, ?, ?)");
+        stmt.setString(1, asiakas.getNimi());
+        stmt.setString(2, asiakas.getEmail());
+        stmt.setString(3, asiakas.getPuhelin());
+        return stmt;
+        }, keyHolder);
         
-    };
+        asiakas.setAsiakasnumero((int) keyHolder.getKey());
+    }
 
     @Override
     public Asiakas read(Integer key) throws SQLException {
-        return null;
-    };
+        Asiakas asiakas = jdbcTemplate.queryForObject(
+        "SELECT * FROM Asiakas WHERE asiakasnumero = ?",
+        new BeanPropertyRowMapper<>(Asiakas.class),
+        key);
+
+        return asiakas;
+    }
 
     @Override
     public Asiakas update(Asiakas asiakas) throws SQLException {
-        return null;
-    };
+        jdbcTemplate.update("UPDATE Asiakas SET nimi = ?, email = ?, puhelin = ? WHERE asiakasnumero = ?", asiakas.getNimi(), asiakas.getEmail(), asiakas.getPuhelin(), asiakas.getAsiakasnumero());
+        return asiakas;
+    }
 
     @Override
     public void delete(Integer key) throws SQLException {
-        
-    };
+        jdbcTemplate.update("DELETE FROM Asiakas WHERE asiakasnumero = ?;", key);        
+    }
 
     @Override
     public List<Asiakas> list() throws SQLException {
-        return null;
-    };
+        return jdbcTemplate.query(
+        "SELECT * FROM Asiakas;",
+        new BeanPropertyRowMapper<>(Asiakas.class));
+    }
     
 }
