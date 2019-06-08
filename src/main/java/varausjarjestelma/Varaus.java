@@ -9,6 +9,8 @@ package varausjarjestelma;
  *
  * @author aleks
  */
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -112,9 +114,31 @@ public class Varaus {
     public void setYhteishinta(Double yhteishinta) {
         this.yhteishinta = yhteishinta;
     }
+    
+    private Integer calculateDays(String alkupvm, String loppupvm) {
+        return Period.between(LocalDate.parse(alkupvm), LocalDate.parse(loppupvm)).getDays();
+    }
 
     @Override
     public String toString() {
-        return asiakas.getNimi() + ", " + asiakas.getEmail() + ", " + alkupvm + ", " + loppupvm + ", paivia_yhteensa" + ", lisavarusteita_yhteensa" + huoneet.size() + "huonetta. Huoneet: \n" + "\n";
+        StringBuilder str = new StringBuilder();
+        str.append(asiakas.getNimi() + ", " + asiakas.getEmail() + ", " + alkupvm + ", " + loppupvm + ", ");
+        int paivia = calculateDays(alkupvm, loppupvm);
+        if (paivia == 1) {
+            str.append("1 paiva ");
+        } else {
+            str.append(paivia + " paivaa");
+        }
+        str.append(", lisavarusteita_yhteensa, ");
+        if (huoneet.size() == 1) {
+            str.append("1 huone.");
+        } else {
+            str.append(huoneet.size() + " huonetta.");
+        }
+        str.append(" Huoneet: \n");
+        for (Huone huone : huoneet) {
+            str.append(huone + "\n");
+        }
+        return str.toString();
     }
 }

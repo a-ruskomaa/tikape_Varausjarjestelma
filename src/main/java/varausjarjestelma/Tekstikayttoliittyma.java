@@ -1,5 +1,6 @@
 package varausjarjestelma;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -287,62 +288,39 @@ public class Tekstikayttoliittyma {
     }
 
     private void testaaHuoneita() {
-        
-        List<Huone> huoneet = new ArrayList();
-        huoneet.add(new Huone(101, "Standard", 100.0));
-        huoneet.add(new Huone(102, "Standard", 102.0));
-        huoneet.add(new Huone(201, "Suite", 200.0));
-        huoneet.add(new Huone(202, "Standard", 105.0));
 
-        for (Huone huone : huoneet) {
-            try {
+        try {
+            List<Huone> huoneet = new ArrayList();
+            huoneet.add(new Huone(101, "Standard", 100.0));
+            huoneet.add(new Huone(102, "Standard", 102.0));
+            huoneet.add(new Huone(201, "Suite", 200.0));
+            huoneet.add(new Huone(202, "Standard", 105.0));
+
+            for (Huone huone : huoneet) {
                 HuoneDAO.create(huone);
-            } catch (Exception e) {
-                System.out.println("Huone error:" + e);
             }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        
+
     }
-    
+
     private void testaaAsiakasta() {
 
-        Asiakas asiakas = new Asiakas(-1, "Janne Makkonen", "janne.makkonen@net.fi", "0401231231");
-
         try {
-            AsiakasDAO.create(new Asiakas(-1, "Anssi Apina", "anssin@maili.com", "0700123123"));
-        } catch (Exception e) {
-            System.out.println("Create error :" + e);
-        }
-        try {
+            Asiakas asiakas = new Asiakas(-1, "Janne Makkonen", "janne.makkonen@net.fi", "0401231231");
             AsiakasDAO.create(asiakas);
-        } catch (Exception e) {
-            System.out.println("Create error :" + e);
-        }
-
-        try {
             System.out.println(AsiakasDAO.read(asiakas.getAsiakasnumero()));
-        } catch (Exception e) {
-            System.out.println("Read error :" + e);
-        }
-
-        asiakas.setPuhelin("0501212122");
-
-        try {
+            asiakas.setPuhelin("0501212122");
             AsiakasDAO.update(asiakas);
-        } catch (Exception e) {
-            System.out.println("Update error :" + e);
-        }
-
-        try {
             System.out.println(AsiakasDAO.read(asiakas.getAsiakasnumero()));
-        } catch (Exception e) {
-            System.out.println("Read error :" + e);
-        }
 
-        try {
+            AsiakasDAO.create(new Asiakas(-1, "Anssi Apina", "anssin@maili.com", "0700123123"));
             System.out.println(AsiakasDAO.list());
+
         } catch (Exception e) {
-            System.out.println("List error :" + e);
+            e.printStackTrace();
         }
     }
 
@@ -352,30 +330,28 @@ public class Tekstikayttoliittyma {
             varaus.addHuone(HuoneDAO.read(101));
             varaus.addHuone(HuoneDAO.read(102));
             VarausDAO.create(varaus);
+
             System.out.println("read:" + VarausDAO.read(varaus.getVarausnumero()));
             varaus.setLoppupvm("2018-07-13");
             System.out.println("update:" + VarausDAO.update(varaus));
             System.out.println("read:" + VarausDAO.read(varaus.getVarausnumero()));
+
+            List<Huone> huoneet = new ArrayList();
+            huoneet.add(new Huone(201, "Suite", 200.0));
+            VarausDAO.create(new Varaus(-1, AsiakasDAO.read(2), "2018-07-01", "2018-07-08", huoneet));
             
+            varaus = new Varaus(-1, AsiakasDAO.read(1), "2018-06-28", "2018-07-01");
+            varaus.addHuone(HuoneDAO.read(101));
+            VarausDAO.create(varaus);
+
+            System.out.println("list:" + VarausDAO.list());
+            
+            System.out.println(VarausDAO.search(LocalDateTime.parse("2018-06-27 16:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")), LocalDateTime.parse("2018-07-01 10:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))));
+            
+            
+
         } catch (Exception e) {
             e.printStackTrace();
-        }
-
-        List<Huone> huoneet = new ArrayList();
-        huoneet.add(new Huone(101, "Standard", 100.0));
-        huoneet.add(new Huone(102, "Standard", 102.0));
-        
-        try {
-            VarausDAO.create(new Varaus(-1, AsiakasDAO.read(2), "2018-06-01", "2018-06-08", huoneet));
-        } catch (Exception e) {
-            System.out.println("Create error :" + e);
-        }
-
-
-        try {
-            System.out.println("list:" + VarausDAO.list());
-        } catch (Exception e) {
-            System.out.println("List error :" + e);
         }
     }
 

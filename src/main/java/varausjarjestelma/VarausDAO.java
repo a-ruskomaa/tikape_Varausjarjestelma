@@ -8,6 +8,9 @@ package varausjarjestelma;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -25,10 +28,10 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class VarausDAO implements DAO<Varaus, Integer> {
-    
+
     @Autowired
     AsiakasDAO AsiakasDAO;
-    
+
     @Autowired
     HuoneDAO HuoneDAO;
 
@@ -69,24 +72,49 @@ public class VarausDAO implements DAO<Varaus, Integer> {
             public int getBatchSize() {
                 return huoneet.size();
             }
-            //Tanne lisattava viela varauksen yhteishinnan laskeva koodi?
         });
-        //Tanne lisattava viela halutut lisavarusteet
+
+
+        //Tarkistetaan onko varauksessa lisävarusteita
+        if (!varaus.getLisavarusteet().isEmpty()) {
+        //Lisätään varausolioon tallennetut lisävarusteet tilapäiselle listalle
+        List<Lisavaruste> lisavarusteet = varaus.getLisavarusteet();
+        //Otetaan uusi yhteys tietokantaan, luodaan BatchPreparedStatementSetter hoitamaan useampi kysely samalla yhteydellä
+            jdbcTemplate.batchUpdate("INSERT INTO VarausLisavaruste (varausnumero, varuste_id) VALUES (?, ?)",
+                    new BatchPreparedStatementSetter() {
+
+                //Valmistellaan kysely jokaisen lisavaruste-taulun rivin osalta
+                @Override
+                public void setValues(PreparedStatement ps, int i) throws SQLException {
+                    ps.setInt(1, varaus.getVarausnumero());
+                    ps.setInt(2, lisavarusteet.get(i).getVaruste_id());
+                }
+
+                @Override
+                public int getBatchSize() {
+                    return huoneet.size();
+                }
+            });
+        }
     }
 
     @Override
     public Varaus read(Integer key) throws SQLException {
+        //Haetaan kyselyn tuottamat rivit listalle
         List<Map<String, Object>> rivit = jdbcTemplate.queryForList("SELECT * FROM Varaus"
-        +                   " JOIN VarausHuone ON Varaus.varausnumero = VarausHuone.varausnumero"
-        +                   " WHERE Varaus.varausnumero = ?", key);
-                
-        int asiakasnumero = (Integer)rivit.get(0).get("asiakasnumero");
+                + " JOIN VarausHuone ON Varaus.varausnumero = VarausHuone.varausnumero"
+                + " WHERE Varaus.varausnumero = ?", key);
+
+        //Etsitään asiakas ensimmäisen rivin arvoista
+        int asiakasnumero = (Integer) rivit.get(0).get("asiakasnumero");
         Asiakas asiakas = AsiakasDAO.read(asiakasnumero);
-        
-        Varaus varaus = new Varaus((Integer)rivit.get(0).get("varausnumero"), asiakas, (String)rivit.get(0).get("alkupvm"),(String)rivit.get(0).get("loppupvm"));
-        
+
+        //Etsitään varauksen muut tiedot ensimmäisen rivin arvoista
+        Varaus varaus = new Varaus((Integer) rivit.get(0).get("varausnumero"), asiakas, (String) rivit.get(0).get("alkupvm"), (String) rivit.get(0).get("loppupvm"));
+
+        //Käydään jokainen rivi läpi, lisätään varaukseen löydetyt huoneet
         for (Map rivi : rivit) {
-            Huone huone = HuoneDAO.read((Integer)rivi.get("huonenumero"));
+            Huone huone = HuoneDAO.read((Integer) rivi.get("huonenumero"));
             varaus.addHuone(huone);
         }
         return varaus;
@@ -106,45 +134,100 @@ public class VarausDAO implements DAO<Varaus, Integer> {
     @Override
     public List<Varaus> list() throws SQLException {
         List<Map<String, Object>> rivit = jdbcTemplate.queryForList("SELECT * FROM Varaus"
-        +                   " JOIN VarausHuone ON Varaus.varausnumero = VarausHuone.varausnumero");
-        
+                + " JOIN VarausHuone ON Varaus.varausnumero = VarausHuone.varausnumero");
+
         List<Varaus> varaukset = new ArrayList<>();
-        
-        int asiakasno = -1;
-        int varausno = -1;
-        Asiakas asiakas = new Asiakas();
-        Varaus varaus = new Varaus();
-        
+
+        int edellisen_rivin_asiakasnumero = -1;
+        Asiakas asiakas = null;
+        Varaus varaus = null;
+
         for (int i = 0; i < rivit.size(); i++) {
-            int asiakasnumero = (Integer)rivit.get(i).get("asiakasnumero");
-            if (asiakasno != asiakasnumero) {
+            int asiakasnumero = (Integer) rivit.get(i).get("asiakasnumero");
+            //jos asiakasnumero on eri kuin edellisellä rivillä, luodaan uusi asiakas
+            if (edellisen_rivin_asiakasnumero != asiakasnumero) {
                 asiakas = AsiakasDAO.read(asiakasnumero);
-                asiakasno = asiakasnumero;
-            }
-            int varausnumero = (Integer)rivit.get(i).get("varausnumero");
-            if (varausno != varausnumero) {
-                varaus = new Varaus(varausnumero, asiakas, (String)rivit.get(i).get("alkupvm"),(String)rivit.get(i).get("loppupvm"));
+
+                //luodaan uusi varaus ja lisätään se metodista palautettavalle listalle
+                varaus = new Varaus((Integer) rivit.get(i).get("varausnumero"), asiakas, (String) rivit.get(i).get("alkupvm"), (String) rivit.get(i).get("loppupvm"));
                 varaukset.add(varaus);
-                Huone huone = HuoneDAO.read((Integer)rivit.get(i).get("huonenumero"));
+
+                //lisätään ensimmäinen varukseen kuuluva huone
+                Huone huone = HuoneDAO.read((Integer) rivit.get(i).get("huonenumero"));
                 varaus.addHuone(huone);
-                varausno = varausnumero;
+
+                edellisen_rivin_asiakasnumero = asiakasnumero;
+
             } else {
-                Huone huone = HuoneDAO.read((Integer)rivit.get(i).get("huonenumero"));
+                //jos asiakasnumero on sama kuin edellisellä rivillä, lisätään huone aiemmin luotuun varaukseen
+                Huone huone = HuoneDAO.read((Integer) rivit.get(i).get("huonenumero"));
                 varaus.addHuone(huone);
             }
-            
+
         }
 
         return varaukset;
     }
-    
+
     public List<Huone> search(Integer varausnumero) throws SQLException {
         return null;
     }
-    
-    public List<Huone> search(String alkupvm, String loppupvm) throws SQLException {
-        return null;
-    }
 
+    public List<Huone> search(LocalDateTime alkupvm, LocalDateTime loppupvm) throws SQLException {
+        String alku = alkupvm.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        String loppu = loppupvm.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        
+        String sql = "SELECT huonenumero, tyyppi, paivahinta FROM Huone\n" +
+"                WHERE huonenumero NOT IN (SELECT Huone.huonenumero FROM Huone\n" +
+"                LEFT JOIN VarausHuone ON Huone.huonenumero = VarausHuone.huonenumero\n" +
+"                LEFT JOIN Varaus ON VarausHuone.varausnumero = Varaus.varausnumero\n" +
+"                WHERE (CONCAT(alkupvm, ' 16:00') BETWEEN ? AND ? OR\n" +
+"                CONCAT(loppupvm, ' 10:00') BETWEEN ? AND ? OR\n" +
+"                ? BETWEEN CONCAT(alkupvm, ' 16:00') AND CONCAT(loppupvm, ' 10:00')));";
+        
+        return jdbcTemplate.query(sql, (rs, rowNum) -> new Huone(rs.getInt("huonenumero"), rs.getString("tyyppi"), rs.getDouble("paivahinta")), alku, loppu, alku, loppu, alku);
+    }
+    
+    public List<Huone> search(LocalDateTime alkupvm, LocalDateTime loppupvm, String tyyppi) throws SQLException {
+        String alku = alkupvm.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        String loppu = loppupvm.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        return jdbcTemplate.query(
+                "SELECT huonenumero, tyyppi, paivahinta FROM Huone\n" +
+"                WHERE huonenumero NOT IN (SELECT Huone.huonenumero FROM Huone\n" +
+"                LEFT JOIN VarausHuone ON Huone.huonenumero = VarausHuone.huonenumero\n" +
+"                LEFT JOIN Varaus ON VarausHuone.varausnumero = Varaus.varausnumero\n" +
+"                WHERE (CONCAT(alkupvm, ' 16:00') BETWEEN ? AND ? OR\n" +
+"                CONCAT(loppupvm, ' 10:00') BETWEEN ? AND ? OR\n" +
+"                ? BETWEEN CONCAT(alkupvm, ' 16:00') AND CONCAT(loppupvm, ' 10:00')))"
+                        + "WHERE tyyppi = ?;", (rs, rowNum) -> new Huone(rs.getInt("huonenumero"), rs.getString("tyyppi"), rs.getDouble("paivahinta")), alku, loppu, alku, loppu, alku, tyyppi);
+    }
+    
+    public List<Huone> search(LocalDateTime alkupvm, LocalDateTime loppupvm, int maksimihinta) throws SQLException {
+        String alku = alkupvm.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        String loppu = loppupvm.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        return jdbcTemplate.query(
+                "SELECT huonenumero, tyyppi, paivahinta FROM Huone\n" +
+"                WHERE huonenumero NOT IN (SELECT Huone.huonenumero FROM Huone\n" +
+"                LEFT JOIN VarausHuone ON Huone.huonenumero = VarausHuone.huonenumero\n" +
+"                LEFT JOIN Varaus ON VarausHuone.varausnumero = Varaus.varausnumero\n" +
+"                WHERE (CONCAT(alkupvm, ' 16:00') BETWEEN ? AND ? OR\n" +
+"                CONCAT(loppupvm, ' 10:00') BETWEEN ? AND ? OR\n" +
+"                ? BETWEEN CONCAT(alkupvm, ' 16:00') AND CONCAT(loppupvm, ' 10:00')))"
+                        + "WHERE paivahinta <= ? ;", (rs, rowNum) -> new Huone(rs.getInt("huonenumero"), rs.getString("tyyppi"), rs.getDouble("paivahinta")), alku, loppu, alku, loppu, alku, maksimihinta);
+    }
+    
+    public List<Huone> search(LocalDateTime alkupvm, LocalDateTime loppupvm, String tyyppi, int maksimihinta) throws SQLException {
+        String alku = alkupvm.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        String loppu = loppupvm.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        return jdbcTemplate.query(
+                "SELECT huonenumero, tyyppi, paivahinta FROM Huone\n" +
+"                WHERE huonenumero NOT IN (SELECT Huone.huonenumero FROM Huone\n" +
+"                LEFT JOIN VarausHuone ON Huone.huonenumero = VarausHuone.huonenumero\n" +
+"                LEFT JOIN Varaus ON VarausHuone.varausnumero = Varaus.varausnumero\n" +
+"                WHERE (CONCAT(alkupvm, ' 16:00') BETWEEN ? AND ? OR\n" +
+"                CONCAT(loppupvm, ' 10:00') BETWEEN ? AND ? OR\n" +
+"                ? BETWEEN CONCAT(alkupvm, ' 16:00') AND CONCAT(loppupvm, ' 10:00')))"
+                        + "WHERE tyyppi = ? AND paivahinta <= ?;", (rs, rowNum) -> new Huone(rs.getInt("huonenumero"), rs.getString("tyyppi"), rs.getDouble("paivahinta")), alku, loppu, alku, loppu, alku, tyyppi, maksimihinta);
+    }
 
 }

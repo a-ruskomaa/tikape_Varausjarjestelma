@@ -11,12 +11,19 @@ package varausjarjestelma;
  */
 public class Lisavaruste {
     private String nimi;
+    private Integer varuste_id;
 
     public Lisavaruste() {
     }
 
     public Lisavaruste(String nimi) {
         this.nimi = nimi;
+        this.varuste_id = -1;
+    }
+
+    public Lisavaruste(String nimi, Integer varuste_id) {
+        this.nimi = nimi;
+        this.varuste_id = varuste_id;
     }
 
     public String getNimi() {
@@ -27,6 +34,12 @@ public class Lisavaruste {
         this.nimi = nimi;
     }
     
-    
+    public Integer getVaruste_id() {
+        return varuste_id;
+    }
+
+    public void setVaruste_id(Integer varuste_id) {
+        this.varuste_id = varuste_id;
+    }
     
 }
