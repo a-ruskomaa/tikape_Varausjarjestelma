@@ -41,6 +41,8 @@ public class AsiakasDAO implements DAO<Asiakas, Integer> {
         }, keyHolder);
         
         asiakas.setAsiakasnumero(keyHolder.getKey().intValue());
+        
+        System.out.println("Asiakas lisätty");
     }
 
     @Override

@@ -29,7 +29,7 @@ public class HuoneDAO implements DAO<Huone, Integer> {
     @Override
     public Huone read(Integer key) throws SQLException {
         Huone huone = jdbcTemplate.queryForObject(
-            "SELECT huonenumero, tyyppi, paivahinta FROM Huone WHERE huonenumero = ?",(rs, rowNum) -> new Huone (rs.getInt("huonenumero"), rs.getString("tyyppi"), rs.getDouble("paivahinta")),
+            "SELECT huonenumero, tyyppi, paivahinta FROM Huone WHERE huonenumero = ?",(rs, rowNum) -> new Huone (rs.getInt("huonenumero"), rs.getString("tyyppi"), rs.getInt("paivahinta")),
             key);
         return huone;
     }
@@ -48,7 +48,7 @@ public class HuoneDAO implements DAO<Huone, Integer> {
     @Override
     public List<Huone> list() throws SQLException {
         return jdbcTemplate.query(
-        "SELECT * FROM Huone;",(rs, rowNum) -> new Huone (rs.getInt("huonenumero"), rs.getString("tyyppi"), rs.getDouble("paivahinta")));
+        "SELECT * FROM Huone;",(rs, rowNum) -> new Huone (rs.getInt("huonenumero"), rs.getString("tyyppi"), rs.getInt("paivahinta")));
     }
     
 }

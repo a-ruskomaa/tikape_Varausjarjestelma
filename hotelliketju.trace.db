@@ -4398,3 +4398,1181 @@ Caused by: java.lang.IllegalArgumentException: 2018-07-03 16:00
 	at org.h2.util.DateTimeUtils.parseTimestamp(DateTimeUtils.java:504)
 	at org.h2.value.ValueTimestamp.parse(ValueTimestamp.java:145)
 	... 49 more
+2019-06-08 20:49:27 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "SELECT HUONENUMERO, TYYPPI, PAIVAHINTA FROM HUONE
+                WHERE HUONENUMERO NOT IN (SELECT HUONE.HUONENUMERO FROM HUONE
+                LEFT JOIN VARAUSHUONE ON HUONE.HUONENUMERO = VARAUSHUONE.HUONENUMERO
+                LEFT JOIN VARAUS ON VARAUSHUONE.VARAUSNUMERO = VARAUS.VARAUSNUMERO
+                WHERE (CONCAT(ALKUPVM, ' 16:00') BETWEEN ? AND ? OR
+                CONCAT(LOPPUPVM, ' 10:00') BETWEEN ? AND ? OR
+                ? BETWEEN CONCAT(ALKUPVM, ' 16:00') AND CONCAT(LOPPUPVM, ' 10:00')))WHERE[*] TYYPPI = ?; "; SQL statement:
+SELECT huonenumero, tyyppi, paivahinta FROM Huone
+                WHERE huonenumero NOT IN (SELECT Huone.huonenumero FROM Huone
+                LEFT JOIN VarausHuone ON Huone.huonenumero = VarausHuone.huonenumero
+                LEFT JOIN Varaus ON VarausHuone.varausnumero = Varaus.varausnumero
+                WHERE (CONCAT(alkupvm, ' 16:00') BETWEEN ? AND ? OR
+                CONCAT(loppupvm, ' 10:00') BETWEEN ? AND ? OR
+                ? BETWEEN CONCAT(alkupvm, ' 16:00') AND CONCAT(loppupvm, ' 10:00')))WHERE tyyppi = ?; [42000-197]
+2019-06-08 22:34:14 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]" [50000-197]
+	at org.h2.message.DbException.get(DbException.java:168)
+	at org.h2.message.DbException.convert(DbException.java:307)
+	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:95)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:2506)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:383)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:364)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:2934)
+	at org.h2.mvstore.db.MVTableEngine$Store.open(MVTableEngine.java:155)
+	at org.h2.mvstore.db.MVTableEngine.init(MVTableEngine.java:100)
+	at org.h2.engine.Database.getPageStore(Database.java:2538)
+	at org.h2.engine.Database.open(Database.java:709)
+	at org.h2.engine.Database.openDatabase(Database.java:286)
+	at org.h2.engine.Database.<init>(Database.java:280)
+	at org.h2.engine.Engine.openSession(Engine.java:66)
+	at org.h2.engine.Engine.openSession(Engine.java:179)
+	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:157)
+	at org.h2.engine.Engine.createSession(Engine.java:140)
+	at org.h2.engine.Engine.createSession(Engine.java:28)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:351)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:124)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:103)
+	at org.h2.Driver.connect(Driver.java:69)
+	at java.sql.DriverManager.getConnection(DriverManager.java:664)
+	at java.sql.DriverManager.getConnection(DriverManager.java:247)
+	at varausjarjestelma.VarausjarjestelmaSovellus.alustaTietokanta(VarausjarjestelmaSovellus.java:32)
+	at varausjarjestelma.VarausjarjestelmaSovellus.run(VarausjarjestelmaSovellus.java:24)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:813)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:797)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:324)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1260)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1248)
+	at varausjarjestelma.VarausjarjestelmaSovellus.main(VarausjarjestelmaSovellus.java:16)
+Caused by: org.h2.jdbc.JdbcSQLException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]" [50000-197]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:357)
+	... 32 more
+Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]
+	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:870)
+	at org.h2.mvstore.FileStore.open(FileStore.java:173)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:350)
+	... 26 more
+2019-06-08 22:34:14 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]" [50000-197]
+	at org.h2.message.DbException.get(DbException.java:168)
+	at org.h2.message.DbException.convert(DbException.java:307)
+	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:95)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:2506)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:383)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:364)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:2934)
+	at org.h2.mvstore.db.MVTableEngine$Store.open(MVTableEngine.java:155)
+	at org.h2.mvstore.db.MVTableEngine.init(MVTableEngine.java:100)
+	at org.h2.engine.Database.getPageStore(Database.java:2538)
+	at org.h2.engine.Database.open(Database.java:709)
+	at org.h2.engine.Database.openDatabase(Database.java:286)
+	at org.h2.engine.Database.<init>(Database.java:280)
+	at org.h2.engine.Engine.openSession(Engine.java:66)
+	at org.h2.engine.Engine.openSession(Engine.java:179)
+	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:157)
+	at org.h2.engine.Engine.createSession(Engine.java:140)
+	at org.h2.engine.Engine.createSession(Engine.java:28)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:351)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:124)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:103)
+	at org.h2.Driver.connect(Driver.java:69)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:136)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:369)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:198)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:467)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:541)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at org.springframework.jdbc.datasource.DataSourceUtils.fetchConnection(DataSourceUtils.java:157)
+	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:115)
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:78)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:612)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:862)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:917)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:927)
+	at varausjarjestelma.HuoneDAO.create(HuoneDAO.java:26)
+	at varausjarjestelma.Tekstikayttoliittyma.testaaHuoneita(Tekstikayttoliittyma.java:375)
+	at varausjarjestelma.Tekstikayttoliittyma.kaynnista(Tekstikayttoliittyma.java:31)
+	at varausjarjestelma.VarausjarjestelmaSovellus.run(VarausjarjestelmaSovellus.java:26)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:813)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:797)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:324)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1260)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1248)
+	at varausjarjestelma.VarausjarjestelmaSovellus.main(VarausjarjestelmaSovellus.java:16)
+Caused by: org.h2.jdbc.JdbcSQLException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]" [50000-197]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:357)
+	... 46 more
+Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]
+	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:870)
+	at org.h2.mvstore.FileStore.open(FileStore.java:173)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:350)
+	... 40 more
+2019-06-08 22:34:15 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]" [50000-197]
+	at org.h2.message.DbException.get(DbException.java:168)
+	at org.h2.message.DbException.convert(DbException.java:307)
+	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:95)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:2506)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:383)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:364)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:2934)
+	at org.h2.mvstore.db.MVTableEngine$Store.open(MVTableEngine.java:155)
+	at org.h2.mvstore.db.MVTableEngine.init(MVTableEngine.java:100)
+	at org.h2.engine.Database.getPageStore(Database.java:2538)
+	at org.h2.engine.Database.open(Database.java:709)
+	at org.h2.engine.Database.openDatabase(Database.java:286)
+	at org.h2.engine.Database.<init>(Database.java:280)
+	at org.h2.engine.Engine.openSession(Engine.java:66)
+	at org.h2.engine.Engine.openSession(Engine.java:179)
+	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:157)
+	at org.h2.engine.Engine.createSession(Engine.java:140)
+	at org.h2.engine.Engine.createSession(Engine.java:28)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:351)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:124)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:103)
+	at org.h2.Driver.connect(Driver.java:69)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:136)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:369)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:198)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:467)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:541)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at org.springframework.jdbc.datasource.DataSourceUtils.fetchConnection(DataSourceUtils.java:157)
+	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:115)
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:78)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:612)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:893)
+	at varausjarjestelma.AsiakasDAO.create(AsiakasDAO.java:33)
+	at varausjarjestelma.Tekstikayttoliittyma.testaaAsiakasta(Tekstikayttoliittyma.java:388)
+	at varausjarjestelma.Tekstikayttoliittyma.kaynnista(Tekstikayttoliittyma.java:32)
+	at varausjarjestelma.VarausjarjestelmaSovellus.run(VarausjarjestelmaSovellus.java:26)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:813)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:797)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:324)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1260)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1248)
+	at varausjarjestelma.VarausjarjestelmaSovellus.main(VarausjarjestelmaSovellus.java:16)
+Caused by: org.h2.jdbc.JdbcSQLException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]" [50000-197]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:357)
+	... 44 more
+Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]
+	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:870)
+	at org.h2.mvstore.FileStore.open(FileStore.java:173)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:350)
+	... 38 more
+2019-06-08 22:34:16 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]" [50000-197]
+	at org.h2.message.DbException.get(DbException.java:168)
+	at org.h2.message.DbException.convert(DbException.java:307)
+	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:95)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:2506)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:383)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:364)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:2934)
+	at org.h2.mvstore.db.MVTableEngine$Store.open(MVTableEngine.java:155)
+	at org.h2.mvstore.db.MVTableEngine.init(MVTableEngine.java:100)
+	at org.h2.engine.Database.getPageStore(Database.java:2538)
+	at org.h2.engine.Database.open(Database.java:709)
+	at org.h2.engine.Database.openDatabase(Database.java:286)
+	at org.h2.engine.Database.<init>(Database.java:280)
+	at org.h2.engine.Engine.openSession(Engine.java:66)
+	at org.h2.engine.Engine.openSession(Engine.java:179)
+	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:157)
+	at org.h2.engine.Engine.createSession(Engine.java:140)
+	at org.h2.engine.Engine.createSession(Engine.java:28)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:351)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:124)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:103)
+	at org.h2.Driver.connect(Driver.java:69)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:136)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:369)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:198)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:467)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:541)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at org.springframework.jdbc.datasource.DataSourceUtils.fetchConnection(DataSourceUtils.java:157)
+	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:115)
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:78)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:612)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:669)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:700)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:712)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:790)
+	at varausjarjestelma.AsiakasDAO.read(AsiakasDAO.java:48)
+	at varausjarjestelma.Tekstikayttoliittyma.testaaVarausta(Tekstikayttoliittyma.java:404)
+	at varausjarjestelma.Tekstikayttoliittyma.kaynnista(Tekstikayttoliittyma.java:33)
+	at varausjarjestelma.VarausjarjestelmaSovellus.run(VarausjarjestelmaSovellus.java:26)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:813)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:797)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:324)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1260)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1248)
+	at varausjarjestelma.VarausjarjestelmaSovellus.main(VarausjarjestelmaSovellus.java:16)
+Caused by: org.h2.jdbc.JdbcSQLException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]" [50000-197]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:357)
+	... 47 more
+Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]
+	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:870)
+	at org.h2.mvstore.FileStore.open(FileStore.java:173)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:350)
+	... 41 more
+2019-06-08 22:34:31 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Value too long for column "ALKUPVM VARCHAR(10) NOT NULL": "'2018-07-03T16:00' (16)"; SQL statement:
+INSERT INTO Varaus (asiakasnumero, alkupvm, loppupvm) VALUES (?, ?, ?) [22001-197]
+2019-06-08 22:43:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Cannot parse "TIMESTAMP" constant "2018-07-03T16:00"; SQL statement:
+INSERT INTO Varaus (asiakasnumero, alkupvm, loppupvm) VALUES (?, ?, ?) -- (?1, ?2, ?3) [22007-197]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:357)
+	at org.h2.message.DbException.get(DbException.java:168)
+	at org.h2.value.ValueTimestamp.parse(ValueTimestamp.java:147)
+	at org.h2.value.Value.convertTo(Value.java:1071)
+	at org.h2.table.Column.convert(Column.java:177)
+	at org.h2.command.dml.Insert.insertRows(Insert.java:166)
+	at org.h2.command.dml.Insert.update(Insert.java:134)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:102)
+	at org.h2.command.Command.executeUpdate(Command.java:261)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdateInternal(JdbcPreparedStatement.java:199)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdate(JdbcPreparedStatement.java:153)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java)
+	at org.springframework.jdbc.core.JdbcTemplate.lambda$update$1(JdbcTemplate.java:894)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:617)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:893)
+	at varausjarjestelma.VarausDAO.create(VarausDAO.java:46)
+	at varausjarjestelma.Tekstikayttoliittyma.testaaVarausta(Tekstikayttoliittyma.java:407)
+	at varausjarjestelma.Tekstikayttoliittyma.kaynnista(Tekstikayttoliittyma.java:33)
+	at varausjarjestelma.VarausjarjestelmaSovellus.run(VarausjarjestelmaSovellus.java:26)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:813)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:797)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:324)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1260)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1248)
+	at varausjarjestelma.VarausjarjestelmaSovellus.main(VarausjarjestelmaSovellus.java:16)
+Caused by: java.lang.IllegalArgumentException: 2018-07-03T16:00
+	at org.h2.util.DateTimeUtils.parseTimeNanos(DateTimeUtils.java:383)
+	at org.h2.util.DateTimeUtils.parseTimestamp(DateTimeUtils.java:504)
+	at org.h2.value.ValueTimestamp.parse(ValueTimestamp.java:145)
+	... 23 more
+2019-06-08 22:56:47 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "VARAUKSET" not found; SQL statement:
+SELECT * FROM VARAUKSET [42102-199]
+2019-06-08 23:10:34 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Unknown data type: "TABLE"; SQL statement:
+
+ CREATE TABLE Lisavaruste (
+ varuste_id INTEGER AUTO_INCREMENT PRIMARY KEY,
+ nimi VARCHAR(20),
+ CREATE TABLE VarausLisavaruste (
+ varausnumero INTEGER,
+ varuste_id INTEGER,
+ PRIMARY KEY (varausnumero, varuste_id),
+ FOREIGN KEY (varausnumero) REFERENCES Varaus(varausnumero),
+ FOREIGN KEY (varuste_id) REFERENCES Lisavaruste(varuste_id)); 
+ CREATE TABLE VarausHuone (
+ varausnumero INTEGER,
+ huonenumero INTEGER,
+ yhteishinta INTEGER,
+ PRIMARY KEY(varausnumero, huonenumero),
+ FOREIGN KEY (varausnumero) REFERENCES Varaus(varausnumero),
+ FOREIGN KEY (huonenumero) REFERENCES Huone(huonenumero));
+  [50004-197]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:357)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.command.Parser.parseColumnWithType(Parser.java:4400)
+	at org.h2.command.Parser.parseColumnForTable(Parser.java:4215)
+	at org.h2.command.Parser.parseTableColumnDefinition(Parser.java:6662)
+	at org.h2.command.Parser.parseCreateTable(Parser.java:6570)
+	at org.h2.command.Parser.parseCreate(Parser.java:4615)
+	at org.h2.command.Parser.parsePrepared(Parser.java:380)
+	at org.h2.command.Parser.parse(Parser.java:335)
+	at org.h2.command.Parser.parse(Parser.java:307)
+	at org.h2.command.Parser.prepareCommand(Parser.java:278)
+	at org.h2.engine.Session.prepareLocal(Session.java:611)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:32)
+	at org.h2.command.CommandList.update(CommandList.java:43)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:36)
+	at org.h2.command.CommandList.update(CommandList.java:43)
+	at org.h2.command.CommandList.executeRemaining(CommandList.java:36)
+	at org.h2.command.CommandList.update(CommandList.java:43)
+	at org.h2.command.Command.executeUpdate(Command.java:261)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdateInternal(JdbcPreparedStatement.java:199)
+	at org.h2.jdbc.JdbcPreparedStatement.executeUpdate(JdbcPreparedStatement.java:153)
+	at varausjarjestelma.VarausjarjestelmaSovellus.alustaTietokanta(VarausjarjestelmaSovellus.java:70)
+	at varausjarjestelma.VarausjarjestelmaSovellus.run(VarausjarjestelmaSovellus.java:24)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:813)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:797)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:324)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1260)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1248)
+	at varausjarjestelma.VarausjarjestelmaSovellus.main(VarausjarjestelmaSovellus.java:16)
+2019-06-08 23:10:34 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "VARAUSHUONE" not found; SQL statement:
+INSERT INTO VarausHuone (varausnumero, huonenumero) VALUES (?, ?) [42102-197]
+2019-06-08 23:11:35 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "
+ CREATE TABLE LISAVARUSTE (
+ VARUSTE_ID INTEGER AUTO_INCREMENT PRIMARY KEY,
+ NIMI VARCHAR(20);[*]
+ CREATE TABLE VARAUSLISAVARUSTE (
+ VARAUSNUMERO INTEGER,
+ VARUSTE_ID INTEGER,
+ PRIMARY KEY (VARAUSNUMERO, VARUSTE_ID),
+ FOREIGN KEY (VARAUSNUMERO) REFERENCES VARAUS(VARAUSNUMERO),
+ FOREIGN KEY (VARUSTE_ID) REFERENCES LISAVARUSTE(VARUSTE_ID)); 
+ CREATE TABLE VARAUSHUONE (
+ VARAUSNUMERO INTEGER,
+ HUONENUMERO INTEGER,
+ YHTEISHINTA INTEGER,
+ PRIMARY KEY(VARAUSNUMERO, HUONENUMERO),
+ FOREIGN KEY (VARAUSNUMERO) REFERENCES VARAUS(VARAUSNUMERO),
+ FOREIGN KEY (HUONENUMERO) REFERENCES HUONE(HUONENUMERO));
+  "; expected "FOR, UNSIGNED, INVISIBLE, VISIBLE, NOT, NULL, AS, DEFAULT, GENERATED, ON, NOT, NULL, AUTO_INCREMENT, BIGSERIAL, SERIAL, IDENTITY, NULL_TO_DEFAULT, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, PRIMARY, UNIQUE, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+
+ CREATE TABLE Lisavaruste (
+ varuste_id INTEGER AUTO_INCREMENT PRIMARY KEY,
+ nimi VARCHAR(20);
+ CREATE TABLE VarausLisavaruste (
+ varausnumero INTEGER,
+ varuste_id INTEGER,
+ PRIMARY KEY (varausnumero, varuste_id),
+ FOREIGN KEY (varausnumero) REFERENCES Varaus(varausnumero),
+ FOREIGN KEY (varuste_id) REFERENCES Lisavaruste(varuste_id)); 
+ CREATE TABLE VarausHuone (
+ varausnumero INTEGER,
+ huonenumero INTEGER,
+ yhteishinta INTEGER,
+ PRIMARY KEY(varausnumero, huonenumero),
+ FOREIGN KEY (varausnumero) REFERENCES Varaus(varausnumero),
+ FOREIGN KEY (huonenumero) REFERENCES Huone(huonenumero));
+  [42001-197]
+2019-06-08 23:11:35 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "VARAUSHUONE" not found; SQL statement:
+INSERT INTO VarausHuone (varausnumero, huonenumero) VALUES (?, ?) [42102-197]
+2019-06-08 23:27:08 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]" [50000-197]
+	at org.h2.message.DbException.get(DbException.java:168)
+	at org.h2.message.DbException.convert(DbException.java:307)
+	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:95)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:2506)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:383)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:364)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:2934)
+	at org.h2.mvstore.db.MVTableEngine$Store.open(MVTableEngine.java:155)
+	at org.h2.mvstore.db.MVTableEngine.init(MVTableEngine.java:100)
+	at org.h2.engine.Database.getPageStore(Database.java:2538)
+	at org.h2.engine.Database.open(Database.java:709)
+	at org.h2.engine.Database.openDatabase(Database.java:286)
+	at org.h2.engine.Database.<init>(Database.java:280)
+	at org.h2.engine.Engine.openSession(Engine.java:66)
+	at org.h2.engine.Engine.openSession(Engine.java:179)
+	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:157)
+	at org.h2.engine.Engine.createSession(Engine.java:140)
+	at org.h2.engine.Engine.createSession(Engine.java:28)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:351)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:124)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:103)
+	at org.h2.Driver.connect(Driver.java:69)
+	at java.sql.DriverManager.getConnection(DriverManager.java:664)
+	at java.sql.DriverManager.getConnection(DriverManager.java:247)
+	at varausjarjestelma.VarausjarjestelmaSovellus.alustaTietokanta(VarausjarjestelmaSovellus.java:32)
+	at varausjarjestelma.VarausjarjestelmaSovellus.run(VarausjarjestelmaSovellus.java:24)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:813)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:797)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:324)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1260)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1248)
+	at varausjarjestelma.VarausjarjestelmaSovellus.main(VarausjarjestelmaSovellus.java:16)
+Caused by: org.h2.jdbc.JdbcSQLException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]" [50000-197]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:357)
+	... 32 more
+Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]
+	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:870)
+	at org.h2.mvstore.FileStore.open(FileStore.java:173)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:350)
+	... 26 more
+2019-06-08 23:27:08 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]" [50000-197]
+	at org.h2.message.DbException.get(DbException.java:168)
+	at org.h2.message.DbException.convert(DbException.java:307)
+	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:95)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:2506)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:383)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:364)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:2934)
+	at org.h2.mvstore.db.MVTableEngine$Store.open(MVTableEngine.java:155)
+	at org.h2.mvstore.db.MVTableEngine.init(MVTableEngine.java:100)
+	at org.h2.engine.Database.getPageStore(Database.java:2538)
+	at org.h2.engine.Database.open(Database.java:709)
+	at org.h2.engine.Database.openDatabase(Database.java:286)
+	at org.h2.engine.Database.<init>(Database.java:280)
+	at org.h2.engine.Engine.openSession(Engine.java:66)
+	at org.h2.engine.Engine.openSession(Engine.java:179)
+	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:157)
+	at org.h2.engine.Engine.createSession(Engine.java:140)
+	at org.h2.engine.Engine.createSession(Engine.java:28)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:351)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:124)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:103)
+	at org.h2.Driver.connect(Driver.java:69)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:136)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:369)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:198)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:467)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:541)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at org.springframework.jdbc.datasource.DataSourceUtils.fetchConnection(DataSourceUtils.java:157)
+	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:115)
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:78)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:612)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:862)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:917)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:927)
+	at varausjarjestelma.HuoneDAO.create(HuoneDAO.java:26)
+	at varausjarjestelma.Tekstikayttoliittyma.testaaHuoneita(Tekstikayttoliittyma.java:387)
+	at varausjarjestelma.Tekstikayttoliittyma.kaynnista(Tekstikayttoliittyma.java:31)
+	at varausjarjestelma.VarausjarjestelmaSovellus.run(VarausjarjestelmaSovellus.java:26)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:813)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:797)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:324)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1260)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1248)
+	at varausjarjestelma.VarausjarjestelmaSovellus.main(VarausjarjestelmaSovellus.java:16)
+Caused by: org.h2.jdbc.JdbcSQLException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]" [50000-197]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:357)
+	... 46 more
+Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]
+	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:870)
+	at org.h2.mvstore.FileStore.open(FileStore.java:173)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:350)
+	... 40 more
+2019-06-08 23:27:12 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]" [50000-197]
+	at org.h2.message.DbException.get(DbException.java:168)
+	at org.h2.message.DbException.convert(DbException.java:307)
+	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:95)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:2506)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:383)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:364)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:2934)
+	at org.h2.mvstore.db.MVTableEngine$Store.open(MVTableEngine.java:155)
+	at org.h2.mvstore.db.MVTableEngine.init(MVTableEngine.java:100)
+	at org.h2.engine.Database.getPageStore(Database.java:2538)
+	at org.h2.engine.Database.open(Database.java:709)
+	at org.h2.engine.Database.openDatabase(Database.java:286)
+	at org.h2.engine.Database.<init>(Database.java:280)
+	at org.h2.engine.Engine.openSession(Engine.java:66)
+	at org.h2.engine.Engine.openSession(Engine.java:179)
+	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:157)
+	at org.h2.engine.Engine.createSession(Engine.java:140)
+	at org.h2.engine.Engine.createSession(Engine.java:28)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:351)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:124)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:103)
+	at org.h2.Driver.connect(Driver.java:69)
+	at java.sql.DriverManager.getConnection(DriverManager.java:664)
+	at java.sql.DriverManager.getConnection(DriverManager.java:247)
+	at varausjarjestelma.VarausjarjestelmaSovellus.alustaTietokanta(VarausjarjestelmaSovellus.java:32)
+	at varausjarjestelma.VarausjarjestelmaSovellus.run(VarausjarjestelmaSovellus.java:24)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:813)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:797)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:324)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1260)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1248)
+	at varausjarjestelma.VarausjarjestelmaSovellus.main(VarausjarjestelmaSovellus.java:16)
+Caused by: org.h2.jdbc.JdbcSQLException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]" [50000-197]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:357)
+	... 32 more
+Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]
+	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:870)
+	at org.h2.mvstore.FileStore.open(FileStore.java:173)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:350)
+	... 26 more
+2019-06-08 23:27:12 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]" [50000-197]
+	at org.h2.message.DbException.get(DbException.java:168)
+	at org.h2.message.DbException.convert(DbException.java:307)
+	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:95)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:2506)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:383)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:364)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:2934)
+	at org.h2.mvstore.db.MVTableEngine$Store.open(MVTableEngine.java:155)
+	at org.h2.mvstore.db.MVTableEngine.init(MVTableEngine.java:100)
+	at org.h2.engine.Database.getPageStore(Database.java:2538)
+	at org.h2.engine.Database.open(Database.java:709)
+	at org.h2.engine.Database.openDatabase(Database.java:286)
+	at org.h2.engine.Database.<init>(Database.java:280)
+	at org.h2.engine.Engine.openSession(Engine.java:66)
+	at org.h2.engine.Engine.openSession(Engine.java:179)
+	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:157)
+	at org.h2.engine.Engine.createSession(Engine.java:140)
+	at org.h2.engine.Engine.createSession(Engine.java:28)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:351)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:124)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:103)
+	at org.h2.Driver.connect(Driver.java:69)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:136)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:369)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:198)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:467)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:541)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at org.springframework.jdbc.datasource.DataSourceUtils.fetchConnection(DataSourceUtils.java:157)
+	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:115)
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:78)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:612)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:862)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:917)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:927)
+	at varausjarjestelma.HuoneDAO.create(HuoneDAO.java:26)
+	at varausjarjestelma.Tekstikayttoliittyma.testaaHuoneita(Tekstikayttoliittyma.java:387)
+	at varausjarjestelma.Tekstikayttoliittyma.kaynnista(Tekstikayttoliittyma.java:31)
+	at varausjarjestelma.VarausjarjestelmaSovellus.run(VarausjarjestelmaSovellus.java:26)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:813)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:797)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:324)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1260)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1248)
+	at varausjarjestelma.VarausjarjestelmaSovellus.main(VarausjarjestelmaSovellus.java:16)
+Caused by: org.h2.jdbc.JdbcSQLException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]" [50000-197]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:357)
+	... 46 more
+Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]
+	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:870)
+	at org.h2.mvstore.FileStore.open(FileStore.java:173)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:350)
+	... 40 more
+2019-06-08 23:27:13 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]" [50000-197]
+	at org.h2.message.DbException.get(DbException.java:168)
+	at org.h2.message.DbException.convert(DbException.java:307)
+	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:95)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:2506)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:383)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:364)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:2934)
+	at org.h2.mvstore.db.MVTableEngine$Store.open(MVTableEngine.java:155)
+	at org.h2.mvstore.db.MVTableEngine.init(MVTableEngine.java:100)
+	at org.h2.engine.Database.getPageStore(Database.java:2538)
+	at org.h2.engine.Database.open(Database.java:709)
+	at org.h2.engine.Database.openDatabase(Database.java:286)
+	at org.h2.engine.Database.<init>(Database.java:280)
+	at org.h2.engine.Engine.openSession(Engine.java:66)
+	at org.h2.engine.Engine.openSession(Engine.java:179)
+	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:157)
+	at org.h2.engine.Engine.createSession(Engine.java:140)
+	at org.h2.engine.Engine.createSession(Engine.java:28)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:351)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:124)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:103)
+	at org.h2.Driver.connect(Driver.java:69)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:136)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:369)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:198)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:467)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:541)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at org.springframework.jdbc.datasource.DataSourceUtils.fetchConnection(DataSourceUtils.java:157)
+	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:115)
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:78)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:612)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:893)
+	at varausjarjestelma.AsiakasDAO.create(AsiakasDAO.java:33)
+	at varausjarjestelma.Tekstikayttoliittyma.testaaAsiakasta(Tekstikayttoliittyma.java:400)
+	at varausjarjestelma.Tekstikayttoliittyma.kaynnista(Tekstikayttoliittyma.java:32)
+	at varausjarjestelma.VarausjarjestelmaSovellus.run(VarausjarjestelmaSovellus.java:26)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:813)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:797)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:324)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1260)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1248)
+	at varausjarjestelma.VarausjarjestelmaSovellus.main(VarausjarjestelmaSovellus.java:16)
+Caused by: org.h2.jdbc.JdbcSQLException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]" [50000-197]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:357)
+	... 44 more
+Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]
+	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:870)
+	at org.h2.mvstore.FileStore.open(FileStore.java:173)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:350)
+	... 38 more
+2019-06-08 23:27:14 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]" [50000-197]
+	at org.h2.message.DbException.get(DbException.java:168)
+	at org.h2.message.DbException.convert(DbException.java:307)
+	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:95)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:2506)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:383)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:364)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:2934)
+	at org.h2.mvstore.db.MVTableEngine$Store.open(MVTableEngine.java:155)
+	at org.h2.mvstore.db.MVTableEngine.init(MVTableEngine.java:100)
+	at org.h2.engine.Database.getPageStore(Database.java:2538)
+	at org.h2.engine.Database.open(Database.java:709)
+	at org.h2.engine.Database.openDatabase(Database.java:286)
+	at org.h2.engine.Database.<init>(Database.java:280)
+	at org.h2.engine.Engine.openSession(Engine.java:66)
+	at org.h2.engine.Engine.openSession(Engine.java:179)
+	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:157)
+	at org.h2.engine.Engine.createSession(Engine.java:140)
+	at org.h2.engine.Engine.createSession(Engine.java:28)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:351)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:124)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:103)
+	at org.h2.Driver.connect(Driver.java:69)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:136)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:369)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:198)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:467)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:541)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at org.springframework.jdbc.datasource.DataSourceUtils.fetchConnection(DataSourceUtils.java:157)
+	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:115)
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:78)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:612)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:669)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:700)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:712)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:790)
+	at varausjarjestelma.AsiakasDAO.read(AsiakasDAO.java:50)
+	at varausjarjestelma.Tekstikayttoliittyma.testaaVarausta(Tekstikayttoliittyma.java:416)
+	at varausjarjestelma.Tekstikayttoliittyma.kaynnista(Tekstikayttoliittyma.java:33)
+	at varausjarjestelma.VarausjarjestelmaSovellus.run(VarausjarjestelmaSovellus.java:26)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:813)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:797)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:324)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1260)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1248)
+	at varausjarjestelma.VarausjarjestelmaSovellus.main(VarausjarjestelmaSovellus.java:16)
+Caused by: org.h2.jdbc.JdbcSQLException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]" [50000-197]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:357)
+	... 47 more
+Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]
+	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:870)
+	at org.h2.mvstore.FileStore.open(FileStore.java:173)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:350)
+	... 41 more
+2019-06-09 18:51:16 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement """SELECT * FROM Varaus""[*]
+                + "" JOIN VarausHuone ON Varaus.varausnumero = VarausHuone.varausnumero""
+                + "" JOIN VarasuLisavaruste ON Varaus.varausnumero = Lisavaruste.varausnumero""
+                + "" WHERE Varaus.varausnumero = ?"""; SQL statement:
+"SELECT * FROM Varaus"
+                + " JOIN VarausHuone ON Varaus.varausnumero = VarausHuone.varausnumero"
+                + " JOIN VarasuLisavaruste ON Varaus.varausnumero = Lisavaruste.varausnumero"
+                + " WHERE Varaus.varausnumero = ?" [42000-199]
+2019-06-09 18:51:37 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "VARASULISAVARUSTE" not found; SQL statement:
+SELECT * FROM Varaus
+JOIN VarausHuone ON Varaus.varausnumero = VarausHuone.varausnumero
+JOIN VarasuLisavaruste ON Varaus.varausnumero = Lisavaruste.varausnumero
+WHERE Varaus.varausnumero = ? [42102-199]
+2019-06-09 18:51:46 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "LISAVARUSTE.VARAUSNUMERO" not found; SQL statement:
+SELECT * FROM Varaus
+JOIN VarausHuone ON Varaus.varausnumero = VarausHuone.varausnumero
+JOIN VarausLisavaruste ON Varaus.varausnumero = Lisavaruste.varausnumero
+WHERE Varaus.varausnumero = ? [42122-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.expression.ExpressionColumn.getColumnException(ExpressionColumn.java:176)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:158)
+	at org.h2.expression.condition.Comparison.optimize(Comparison.java:207)
+	at org.h2.expression.condition.ConditionAndOr.optimize(ConditionAndOr.java:133)
+	at org.h2.expression.condition.ConditionAndOr.optimize(ConditionAndOr.java:134)
+	at org.h2.command.dml.Select.prepare(Select.java:1248)
+	at org.h2.command.Parser.prepareCommand(Parser.java:689)
+	at org.h2.engine.Session.prepareLocal(Session.java:627)
+	at org.h2.engine.Session.prepareCommand(Session.java:565)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:1113)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1436)
+	at org.h2.server.web.WebApp.query(WebApp.java:1111)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:1073)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:1060)
+	at org.h2.server.web.WebThread.process(WebThread.java:173)
+	at org.h2.server.web.WebThread.run(WebThread.java:93)
+	at java.lang.Thread.run(Unknown Source)
+2019-06-09 18:52:06 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Parameter "#1" is not set; SQL statement:
+SELECT * FROM Varaus
+JOIN VarausHuone ON Varaus.varausnumero = VarausHuone.varausnumero
+JOIN VarausLisavaruste ON Varaus.varausnumero = Varauslisavaruste.varausnumero
+WHERE Varaus.varausnumero = ? [90012-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:587)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.expression.Parameter.checkSet(Parameter.java:94)
+	at org.h2.command.Prepared.checkParameters(Prepared.java:180)
+	at org.h2.command.CommandContainer.query(CommandContainer.java:144)
+	at org.h2.command.Command.executeQuery(Command.java:202)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:227)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:1113)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1436)
+	at org.h2.server.web.WebApp.query(WebApp.java:1111)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:1073)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:1060)
+	at org.h2.server.web.WebThread.process(WebThread.java:173)
+	at org.h2.server.web.WebThread.run(WebThread.java:93)
+	at java.lang.Thread.run(Unknown Source)
+2019-06-09 19:01:40 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "
+ FOREIGN[*] KEY (VARAUSNUMERO) REFERENCES VARAUS(VARAUSNUMERO),
+ CREATE TABLE VARAUSHUONE (
+ VARAUSNUMERO INTEGER,
+ HUONENUMERO INTEGER,
+ YHTEISHINTA INTEGER,
+ PRIMARY KEY(VARAUSNUMERO, HUONENUMERO),
+ FOREIGN KEY (VARAUSNUMERO) REFERENCES VARAUS(VARAUSNUMERO),
+ FOREIGN KEY (HUONENUMERO) REFERENCES HUONE(HUONENUMERO));
+  "; expected "FROM, {"; SQL statement:
+
+ FOREIGN KEY (varausnumero) REFERENCES Varaus(varausnumero),
+ CREATE TABLE VarausHuone (
+ varausnumero INTEGER,
+ huonenumero INTEGER,
+ yhteishinta INTEGER,
+ PRIMARY KEY(varausnumero, huonenumero),
+ FOREIGN KEY (varausnumero) REFERENCES Varaus(varausnumero),
+ FOREIGN KEY (huonenumero) REFERENCES Huone(huonenumero));
+  [42001-197]
+2019-06-09 19:01:40 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "VARAUSHUONE" not found; SQL statement:
+INSERT INTO VarausHuone (varausnumero, huonenumero) VALUES (?, ?) [42102-197]
+2019-06-09 19:03:59 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "
+ CREATE TABLE LISAVARUSTE (
+ ID INTEGER AUTO_INCREMENT PRIMARY KEY,
+ VARAUSNUMERO INTEGER,
+ NIMI VARCHAR(20)
+ FOREIGN[*] KEY (VARAUSNUMERO) REFERENCES VARAUS(VARAUSNUMERO)´);
+ CREATE TABLE VARAUSHUONE (
+ VARAUSNUMERO INTEGER,
+ HUONENUMERO INTEGER,
+ YHTEISHINTA INTEGER,
+ PRIMARY KEY(VARAUSNUMERO, HUONENUMERO),
+ FOREIGN KEY (VARAUSNUMERO) REFERENCES VARAUS(VARAUSNUMERO),
+ FOREIGN KEY (HUONENUMERO) REFERENCES HUONE(HUONENUMERO));
+  "; expected "FOR, UNSIGNED, INVISIBLE, VISIBLE, NOT, NULL, AS, DEFAULT, GENERATED, ON, NOT, NULL, AUTO_INCREMENT, BIGSERIAL, SERIAL, IDENTITY, NULL_TO_DEFAULT, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, PRIMARY, UNIQUE, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+
+ CREATE TABLE Lisavaruste (
+ id INTEGER AUTO_INCREMENT PRIMARY KEY,
+ varausnumero INTEGER,
+ nimi VARCHAR(20)
+ FOREIGN KEY (varausnumero) REFERENCES Varaus(varausnumero)´);
+ CREATE TABLE VarausHuone (
+ varausnumero INTEGER,
+ huonenumero INTEGER,
+ yhteishinta INTEGER,
+ PRIMARY KEY(varausnumero, huonenumero),
+ FOREIGN KEY (varausnumero) REFERENCES Varaus(varausnumero),
+ FOREIGN KEY (huonenumero) REFERENCES Huone(huonenumero));
+  [42001-197]
+2019-06-09 19:03:59 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "VARAUSHUONE" not found; SQL statement:
+INSERT INTO VarausHuone (varausnumero, huonenumero) VALUES (?, ?) [42102-197]
+2019-06-09 19:04:30 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "
+ CREATE TABLE LISAVARUSTE (
+ ID INTEGER AUTO_INCREMENT PRIMARY KEY,
+ VARAUSNUMERO INTEGER,
+ NIMI VARCHAR(20),
+ FOREIGN KEY (VARAUSNUMERO) REFERENCES VARAUS(VARAUSNUMERO)[*]´);
+ CREATE TABLE VARAUSHUONE (
+ VARAUSNUMERO INTEGER,
+ HUONENUMERO INTEGER,
+ YHTEISHINTA INTEGER,
+ PRIMARY KEY(VARAUSNUMERO, HUONENUMERO),
+ FOREIGN KEY (VARAUSNUMERO) REFERENCES VARAUS(VARAUSNUMERO),
+ FOREIGN KEY (HUONENUMERO) REFERENCES HUONE(HUONENUMERO));
+  "; SQL statement:
+
+ CREATE TABLE Lisavaruste (
+ id INTEGER AUTO_INCREMENT PRIMARY KEY,
+ varausnumero INTEGER,
+ nimi VARCHAR(20),
+ FOREIGN KEY (varausnumero) REFERENCES Varaus(varausnumero)´);
+ CREATE TABLE VarausHuone (
+ varausnumero INTEGER,
+ huonenumero INTEGER,
+ yhteishinta INTEGER,
+ PRIMARY KEY(varausnumero, huonenumero),
+ FOREIGN KEY (varausnumero) REFERENCES Varaus(varausnumero),
+ FOREIGN KEY (huonenumero) REFERENCES Huone(huonenumero));
+  [42000-197]
+2019-06-09 19:04:30 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "VARAUSHUONE" not found; SQL statement:
+INSERT INTO VarausHuone (varausnumero, huonenumero) VALUES (?, ?) [42102-197]
+2019-06-09 19:15:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "VARAUKSET" not found; SQL statement:
+SELECT * FROM VARAUKSET
+JOIN VarausHuone ON Varaushuone.varausnumero = Varaus.varausnumero
+LEFT JOIN Lisavaruste ON Varaus.varausnumero = Lisavaruste.varausnumero [42102-199]
+2019-06-09 19:22:42 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]" [50000-197]
+	at org.h2.message.DbException.get(DbException.java:168)
+	at org.h2.message.DbException.convert(DbException.java:307)
+	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:95)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:2506)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:383)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:364)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:2934)
+	at org.h2.mvstore.db.MVTableEngine$Store.open(MVTableEngine.java:155)
+	at org.h2.mvstore.db.MVTableEngine.init(MVTableEngine.java:100)
+	at org.h2.engine.Database.getPageStore(Database.java:2538)
+	at org.h2.engine.Database.open(Database.java:709)
+	at org.h2.engine.Database.openDatabase(Database.java:286)
+	at org.h2.engine.Database.<init>(Database.java:280)
+	at org.h2.engine.Engine.openSession(Engine.java:66)
+	at org.h2.engine.Engine.openSession(Engine.java:179)
+	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:157)
+	at org.h2.engine.Engine.createSession(Engine.java:140)
+	at org.h2.engine.Engine.createSession(Engine.java:28)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:351)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:124)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:103)
+	at org.h2.Driver.connect(Driver.java:69)
+	at java.sql.DriverManager.getConnection(DriverManager.java:664)
+	at java.sql.DriverManager.getConnection(DriverManager.java:247)
+	at varausjarjestelma.VarausjarjestelmaSovellus.alustaTietokanta(VarausjarjestelmaSovellus.java:32)
+	at varausjarjestelma.VarausjarjestelmaSovellus.run(VarausjarjestelmaSovellus.java:24)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:813)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:797)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:324)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1260)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1248)
+	at varausjarjestelma.VarausjarjestelmaSovellus.main(VarausjarjestelmaSovellus.java:16)
+Caused by: org.h2.jdbc.JdbcSQLException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]" [50000-197]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:357)
+	... 32 more
+Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]
+	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:870)
+	at org.h2.mvstore.FileStore.open(FileStore.java:173)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:350)
+	... 26 more
+2019-06-09 19:22:42 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]" [50000-197]
+	at org.h2.message.DbException.get(DbException.java:168)
+	at org.h2.message.DbException.convert(DbException.java:307)
+	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:95)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:2506)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:383)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:364)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:2934)
+	at org.h2.mvstore.db.MVTableEngine$Store.open(MVTableEngine.java:155)
+	at org.h2.mvstore.db.MVTableEngine.init(MVTableEngine.java:100)
+	at org.h2.engine.Database.getPageStore(Database.java:2538)
+	at org.h2.engine.Database.open(Database.java:709)
+	at org.h2.engine.Database.openDatabase(Database.java:286)
+	at org.h2.engine.Database.<init>(Database.java:280)
+	at org.h2.engine.Engine.openSession(Engine.java:66)
+	at org.h2.engine.Engine.openSession(Engine.java:179)
+	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:157)
+	at org.h2.engine.Engine.createSession(Engine.java:140)
+	at org.h2.engine.Engine.createSession(Engine.java:28)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:351)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:124)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:103)
+	at org.h2.Driver.connect(Driver.java:69)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:136)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:369)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:198)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:467)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:541)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at org.springframework.jdbc.datasource.DataSourceUtils.fetchConnection(DataSourceUtils.java:157)
+	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:115)
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:78)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:612)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:862)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:917)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:927)
+	at varausjarjestelma.HuoneDAO.create(HuoneDAO.java:26)
+	at varausjarjestelma.Tekstikayttoliittyma.testaaHuoneita(Tekstikayttoliittyma.java:392)
+	at varausjarjestelma.Tekstikayttoliittyma.kaynnista(Tekstikayttoliittyma.java:31)
+	at varausjarjestelma.VarausjarjestelmaSovellus.run(VarausjarjestelmaSovellus.java:26)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:813)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:797)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:324)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1260)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1248)
+	at varausjarjestelma.VarausjarjestelmaSovellus.main(VarausjarjestelmaSovellus.java:16)
+Caused by: org.h2.jdbc.JdbcSQLException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]" [50000-197]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:357)
+	... 46 more
+Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]
+	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:870)
+	at org.h2.mvstore.FileStore.open(FileStore.java:173)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:350)
+	... 40 more
+2019-06-09 19:22:43 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]" [50000-197]
+	at org.h2.message.DbException.get(DbException.java:168)
+	at org.h2.message.DbException.convert(DbException.java:307)
+	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:95)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:2506)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:383)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:364)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:2934)
+	at org.h2.mvstore.db.MVTableEngine$Store.open(MVTableEngine.java:155)
+	at org.h2.mvstore.db.MVTableEngine.init(MVTableEngine.java:100)
+	at org.h2.engine.Database.getPageStore(Database.java:2538)
+	at org.h2.engine.Database.open(Database.java:709)
+	at org.h2.engine.Database.openDatabase(Database.java:286)
+	at org.h2.engine.Database.<init>(Database.java:280)
+	at org.h2.engine.Engine.openSession(Engine.java:66)
+	at org.h2.engine.Engine.openSession(Engine.java:179)
+	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:157)
+	at org.h2.engine.Engine.createSession(Engine.java:140)
+	at org.h2.engine.Engine.createSession(Engine.java:28)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:351)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:124)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:103)
+	at org.h2.Driver.connect(Driver.java:69)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:136)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:369)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:198)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:467)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:541)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at org.springframework.jdbc.datasource.DataSourceUtils.fetchConnection(DataSourceUtils.java:157)
+	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:115)
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:78)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:612)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:893)
+	at varausjarjestelma.AsiakasDAO.create(AsiakasDAO.java:33)
+	at varausjarjestelma.Tekstikayttoliittyma.testaaAsiakasta(Tekstikayttoliittyma.java:405)
+	at varausjarjestelma.Tekstikayttoliittyma.kaynnista(Tekstikayttoliittyma.java:32)
+	at varausjarjestelma.VarausjarjestelmaSovellus.run(VarausjarjestelmaSovellus.java:26)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:813)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:797)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:324)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1260)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1248)
+	at varausjarjestelma.VarausjarjestelmaSovellus.main(VarausjarjestelmaSovellus.java:16)
+Caused by: org.h2.jdbc.JdbcSQLException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]" [50000-197]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:357)
+	... 44 more
+Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]
+	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:870)
+	at org.h2.mvstore.FileStore.open(FileStore.java:173)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:350)
+	... 38 more
+2019-06-09 19:22:44 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]" [50000-197]
+	at org.h2.message.DbException.get(DbException.java:168)
+	at org.h2.message.DbException.convert(DbException.java:307)
+	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:95)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:2506)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:383)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:364)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:2934)
+	at org.h2.mvstore.db.MVTableEngine$Store.open(MVTableEngine.java:155)
+	at org.h2.mvstore.db.MVTableEngine.init(MVTableEngine.java:100)
+	at org.h2.engine.Database.getPageStore(Database.java:2538)
+	at org.h2.engine.Database.open(Database.java:709)
+	at org.h2.engine.Database.openDatabase(Database.java:286)
+	at org.h2.engine.Database.<init>(Database.java:280)
+	at org.h2.engine.Engine.openSession(Engine.java:66)
+	at org.h2.engine.Engine.openSession(Engine.java:179)
+	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:157)
+	at org.h2.engine.Engine.createSession(Engine.java:140)
+	at org.h2.engine.Engine.createSession(Engine.java:28)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:351)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:124)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:103)
+	at org.h2.Driver.connect(Driver.java:69)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:136)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:369)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:198)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:467)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:541)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at org.springframework.jdbc.datasource.DataSourceUtils.fetchConnection(DataSourceUtils.java:157)
+	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:115)
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:78)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:612)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:669)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:700)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:712)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForObject(JdbcTemplate.java:790)
+	at varausjarjestelma.AsiakasDAO.read(AsiakasDAO.java:50)
+	at varausjarjestelma.Tekstikayttoliittyma.testaaVarausta(Tekstikayttoliittyma.java:421)
+	at varausjarjestelma.Tekstikayttoliittyma.kaynnista(Tekstikayttoliittyma.java:33)
+	at varausjarjestelma.VarausjarjestelmaSovellus.run(VarausjarjestelmaSovellus.java:26)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:813)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:797)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:324)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1260)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1248)
+	at varausjarjestelma.VarausjarjestelmaSovellus.main(VarausjarjestelmaSovellus.java:16)
+Caused by: org.h2.jdbc.JdbcSQLException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]" [50000-197]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:357)
+	... 47 more
+Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]
+	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:870)
+	at org.h2.mvstore.FileStore.open(FileStore.java:173)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:350)
+	... 41 more
+2019-06-09 19:26:33 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM VARAUS
+JOIN VARAUSHUONE ON VARAUSHUONE.VARAUSNUMERO = VARAUS.VARAUSNUMERO
+OUTER[*] JOIN LISAVARUSTE ON VARAUS.VARAUSNUMERO = LISAVARUSTE.VARAUSNUMERO "; SQL statement:
+SELECT * FROM VARAUS
+JOIN VarausHuone ON Varaushuone.varausnumero = Varaus.varausnumero
+OUTER JOIN Lisavaruste ON Varaus.varausnumero = Lisavaruste.varausnumero [42000-199]
+2019-06-09 19:26:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM VARAUS
+JOIN VARAUSHUONE ON VARAUSHUONE.VARAUSNUMERO = VARAUS.VARAUSNUMERO
+FULL OUTER[*] JOIN LISAVARUSTE ON VARAUS.VARAUSNUMERO = LISAVARUSTE.VARAUSNUMERO "; SQL statement:
+SELECT * FROM VARAUS
+JOIN VarausHuone ON Varaushuone.varausnumero = Varaus.varausnumero
+FULL OUTER JOIN Lisavaruste ON Varaus.varausnumero = Lisavaruste.varausnumero [42000-199]
+2019-06-09 21:22:35 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]" [50000-197]
+	at org.h2.message.DbException.get(DbException.java:168)
+	at org.h2.message.DbException.convert(DbException.java:307)
+	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:95)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:2506)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:383)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:364)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:2934)
+	at org.h2.mvstore.db.MVTableEngine$Store.open(MVTableEngine.java:155)
+	at org.h2.mvstore.db.MVTableEngine.init(MVTableEngine.java:100)
+	at org.h2.engine.Database.getPageStore(Database.java:2538)
+	at org.h2.engine.Database.open(Database.java:709)
+	at org.h2.engine.Database.openDatabase(Database.java:286)
+	at org.h2.engine.Database.<init>(Database.java:280)
+	at org.h2.engine.Engine.openSession(Engine.java:66)
+	at org.h2.engine.Engine.openSession(Engine.java:179)
+	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:157)
+	at org.h2.engine.Engine.createSession(Engine.java:140)
+	at org.h2.engine.Engine.createSession(Engine.java:28)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:351)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:124)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:103)
+	at org.h2.Driver.connect(Driver.java:69)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:136)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:369)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:198)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:467)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:541)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at org.springframework.jdbc.datasource.DataSourceUtils.fetchConnection(DataSourceUtils.java:157)
+	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:115)
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:78)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:612)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:669)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:700)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:712)
+	at org.springframework.jdbc.core.JdbcTemplate.query(JdbcTemplate.java:763)
+	at org.springframework.jdbc.core.JdbcTemplate.queryForList(JdbcTemplate.java:844)
+	at varausjarjestelma.VarausDAO.read(VarausDAO.java:119)
+	at varausjarjestelma.Tekstikayttoliittyma.testaaVarausta(Tekstikayttoliittyma.java:422)
+	at varausjarjestelma.Tekstikayttoliittyma.kaynnista(Tekstikayttoliittyma.java:33)
+	at varausjarjestelma.VarausjarjestelmaSovellus.run(VarausjarjestelmaSovellus.java:26)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:813)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:797)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:324)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1260)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1248)
+	at varausjarjestelma.VarausjarjestelmaSovellus.main(VarausjarjestelmaSovellus.java:16)
+Caused by: org.h2.jdbc.JdbcSQLException: General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]" [50000-197]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:357)
+	... 48 more
+Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/aleks/Documents/NetBeansProjects/mooc-tikape-kesa-19-projekti/tikape_Varausjarjestelma/hotelliketju.mv.db [1.4.197/7]
+	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:870)
+	at org.h2.mvstore.FileStore.open(FileStore.java:173)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:350)
+	... 42 more
+2019-06-09 21:39:29 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM VARAUS
+JOIN VARAUSHUONE ON VARAUS.VARAUSNUMERO = VARAUSHUONE.VARAUSNUMERO
+LEFT JOIN LISAVARUSTE ON VARAUS.VARAUSNUMERO = LISAVARUSTE.VARAUSNUMERO
+ORDER BY ALKUPVM DESC
+GROUP[*] BY VARAUS.VARAUSNUMERO"; SQL statement:
+SELECT * FROM VARAUS
+JOIN VARAUSHUONE ON VARAUS.VARAUSNUMERO = VARAUSHUONE.VARAUSNUMERO
+LEFT JOIN LISAVARUSTE ON VARAUS.VARAUSNUMERO = LISAVARUSTE.VARAUSNUMERO
+ORDER BY ALKUPVM DESC
+GROUP BY VARAUS.VARAUSNUMERO [42000-199]
+2019-06-09 21:39:40 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM VARAUS
+JOIN VARAUSHUONE ON VARAUS.VARAUSNUMERO = VARAUSHUONE.VARAUSNUMERO
+LEFT JOIN LISAVARUSTE ON VARAUS.VARAUSNUMERO = LISAVARUSTE.VARAUSNUMERO
+ORDER BY ALKUPVM DESC AND[*] VARAUS.VARAUSNUMERO"; SQL statement:
+SELECT * FROM VARAUS
+JOIN VARAUSHUONE ON VARAUS.VARAUSNUMERO = VARAUSHUONE.VARAUSNUMERO
+LEFT JOIN LISAVARUSTE ON VARAUS.VARAUSNUMERO = LISAVARUSTE.VARAUSNUMERO
+ORDER BY ALKUPVM DESC AND VARAUS.VARAUSNUMERO [42000-199]
+2019-06-09 22:14:45 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "HUONE.HUONENUMERO" not found; SQL statement:
+SELECT Varaus.varausnumero, Huone.huonenumero, Huone.tyyppi, Huone.paivahinta FROM Varaus
+JOIN VarausHuone ON Varaus.varausnumero = VarausHuone.varausnumero [42122-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.expression.ExpressionColumn.getColumnException(ExpressionColumn.java:176)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:158)
+	at org.h2.command.dml.Select.prepare(Select.java:1245)
+	at org.h2.command.Parser.prepareCommand(Parser.java:689)
+	at org.h2.engine.Session.prepareLocal(Session.java:627)
+	at org.h2.engine.Session.prepareCommand(Session.java:565)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:1113)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1436)
+	at org.h2.server.web.WebApp.query(WebApp.java:1111)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:1073)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:1060)
+	at org.h2.server.web.WebThread.process(WebThread.java:173)
+	at org.h2.server.web.WebThread.run(WebThread.java:93)
+	at java.lang.Thread.run(Unknown Source)
+2019-06-09 23:14:24 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "NIMI" must be in the GROUP BY list; SQL statement:
+SELECT COUNT(varausnumero), nimi FROM Lisavaruste [90016-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:573)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.expression.ExpressionColumn.updateAggregate(ExpressionColumn.java:195)
+	at org.h2.command.dml.Select.updateAgg(Select.java:553)
+	at org.h2.command.dml.Select.gatherGroup(Select.java:533)
+	at org.h2.command.dml.Select.queryGroup(Select.java:495)
+	at org.h2.command.dml.Select.queryWithoutCache(Select.java:879)
+	at org.h2.command.dml.Query.queryWithoutCacheLazyCheck(Query.java:151)
+	at org.h2.command.dml.Query.query(Query.java:435)
+	at org.h2.command.dml.Query.query(Query.java:397)
+	at org.h2.command.CommandContainer.query(CommandContainer.java:145)
+	at org.h2.command.Command.executeQuery(Command.java:202)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:227)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:1113)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1436)
+	at org.h2.server.web.WebApp.query(WebApp.java:1111)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:1073)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:1060)
+	at org.h2.server.web.WebThread.process(WebThread.java:173)
+	at org.h2.server.web.WebThread.run(WebThread.java:93)
+	at java.lang.Thread.run(Unknown Source)
+2019-06-09 23:15:16 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT COUNT(VARAUSNUMERO), NIMI FROM LISAVARUSTE GROUP BY NIMI MAXIMUM[*] 10 "; SQL statement:
+SELECT COUNT(varausnumero), nimi FROM Lisavaruste GROUP BY nimi MAXIMUM 10 [42000-199]

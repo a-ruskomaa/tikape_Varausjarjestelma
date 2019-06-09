@@ -12,12 +12,12 @@ package varausjarjestelma;
 public class Huone {
     private Integer huonenumero;
     private String tyyppi;
-    private Double paivahinta;
+    private Integer paivahinta;
 
     public Huone() {
     }
 
-    public Huone(Integer huonenumero, String tyyppi, Double paivahinta) {
+    public Huone(Integer huonenumero, String tyyppi, Integer paivahinta) {
         this.huonenumero = huonenumero;
         this.tyyppi = tyyppi;
         this.paivahinta = paivahinta;
@@ -39,11 +39,11 @@ public class Huone {
         this.tyyppi = tyyppi;
     }
 
-    public Double getPaivahinta() {
+    public Integer getPaivahinta() {
         return paivahinta;
     }
 
-    public void setPaivahinta(Double paivahinta) {
+    public void setPaivahinta(Integer paivahinta) {
         this.paivahinta = paivahinta;
     }
 

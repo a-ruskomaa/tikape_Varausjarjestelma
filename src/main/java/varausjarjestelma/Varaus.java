@@ -10,6 +10,7 @@ package varausjarjestelma;
  * @author aleks
  */
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.List;
 import java.util.ArrayList;
@@ -17,8 +18,8 @@ import java.util.ArrayList;
 public class Varaus {
     private Integer varausnumero;
     private Asiakas asiakas;
-    private String alkupvm;
-    private String loppupvm;
+    private LocalDate alkupvm;
+    private LocalDate loppupvm;
     private List<Huone> huoneet;
     private List<Lisavaruste> lisavarusteet;
     private Double yhteishinta;
@@ -26,7 +27,7 @@ public class Varaus {
     public Varaus() {
     }
     
-    public Varaus(Integer varausnumero, Asiakas asiakas, String alkupvm, String loppupvm, List<Huone> huoneet, List<Lisavaruste> lisavarusteet) {
+    public Varaus(Integer varausnumero, Asiakas asiakas, LocalDate alkupvm, LocalDate loppupvm, List<Huone> huoneet, List<Lisavaruste> lisavarusteet) {
         this.varausnumero = varausnumero;
         this.asiakas = asiakas;
         this.alkupvm = alkupvm;
@@ -35,23 +36,17 @@ public class Varaus {
         this.lisavarusteet = lisavarusteet;
     }    
     
-    public Varaus(Integer varausnumero, Asiakas asiakas, String alkupvm, String loppupvm, List<Huone> huoneet) {
-        this.varausnumero = varausnumero;
-        this.asiakas = asiakas;
-        this.alkupvm = alkupvm;
-        this.loppupvm = loppupvm;
-        this.huoneet = huoneet;
-        this.lisavarusteet = new ArrayList<>();
+    public Varaus(Integer varausnumero, Asiakas asiakas, LocalDate alkupvm, LocalDate loppupvm, List<Huone> huoneet) {
+        this(varausnumero, asiakas, alkupvm, loppupvm, huoneet, new ArrayList<>());
     }
 
     
-    public Varaus(Integer varausnumero, Asiakas asiakas, String alkupvm, String loppupvm) {
+    public Varaus(Integer varausnumero, Asiakas asiakas, LocalDate alkupvm, LocalDate loppupvm) {
+        this(varausnumero, asiakas, alkupvm, loppupvm, new ArrayList<>(), new ArrayList<>());
+    }
+    
+    public Varaus(Integer varausnumero) {
         this.varausnumero = varausnumero;
-        this.asiakas = asiakas;
-        this.alkupvm = alkupvm;
-        this.loppupvm = loppupvm;
-        this.huoneet = new ArrayList<>();
-        this.lisavarusteet = new ArrayList<>();
     }
 
 
@@ -71,19 +66,19 @@ public class Varaus {
         this.asiakas = asiakas;
     }
 
-    public String getAlkupvm() {
+    public LocalDate getAlkupvm() {
         return alkupvm;
     }
 
-    public void setAlkupvm(String alkupvm) {
+    public void setAlkupvm(LocalDate alkupvm) {
         this.alkupvm = alkupvm;
     }
 
-    public String getLoppupvm() {
+    public LocalDate getLoppupvm() {
         return loppupvm;
     }
 
-    public void setLoppupvm(String loppupvm) {
+    public void setLoppupvm(LocalDate loppupvm) {
         this.loppupvm = loppupvm;
     }
 
@@ -91,7 +86,7 @@ public class Varaus {
         return huoneet;
     }
 
-    public void setHuoneet(ArrayList<Huone> huoneet) {
+    public void setHuoneet(List<Huone> huoneet) {
         this.huoneet = huoneet;
     }
     
@@ -106,6 +101,10 @@ public class Varaus {
     public void setLisavarusteet(List<Lisavaruste> lisavarusteet) {
         this.lisavarusteet = lisavarusteet;
     }
+     
+    public void addLisavaruste (Lisavaruste lisavaruste) {
+        this.lisavarusteet.add(lisavaruste);
+    }
 
     public Double getYhteishinta() {
         return yhteishinta;
@@ -115,8 +114,8 @@ public class Varaus {
         this.yhteishinta = yhteishinta;
     }
     
-    private Integer calculateDays(String alkupvm, String loppupvm) {
-        return Period.between(LocalDate.parse(alkupvm), LocalDate.parse(loppupvm)).getDays();
+    private Integer calculateDays(LocalDate alkupvm, LocalDate loppupvm) {
+        return Period.between(alkupvm, loppupvm).getDays();
     }
 
     @Override
@@ -125,20 +124,27 @@ public class Varaus {
         str.append(asiakas.getNimi() + ", " + asiakas.getEmail() + ", " + alkupvm + ", " + loppupvm + ", ");
         int paivia = calculateDays(alkupvm, loppupvm);
         if (paivia == 1) {
-            str.append("1 paiva ");
+            str.append("1 päivä, ");
         } else {
-            str.append(paivia + " paivaa");
+            str.append(paivia + " päivää, ");
         }
-        str.append(", lisavarusteita_yhteensa, ");
+        if (lisavarusteet.size() == 1) {
+            str.append("1 lisävaruste, ");
+        } else {
+            str.append(lisavarusteet.size() + " lisävarustetta, ");
+        }
         if (huoneet.size() == 1) {
             str.append("1 huone.");
         } else {
             str.append(huoneet.size() + " huonetta.");
         }
         str.append(" Huoneet: \n");
+        int yhteishinta = 0;
         for (Huone huone : huoneet) {
-            str.append(huone + "\n");
+            str.append("\t" + huone + "\n");
+            yhteishinta += huone.getPaivahinta() * paivia;
         }
+        str.append("\tYhteensä: " + yhteishinta + " euroa \n");
         return str.toString();
     }
 }

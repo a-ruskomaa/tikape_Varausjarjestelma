@@ -21,7 +21,7 @@ public class VarausjarjestelmaSovellus implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        alustaTietokanta();
+//        alustaTietokanta();
         Scanner lukija = new Scanner(System.in);
         tekstikayttoliittyma.kaynnista(lukija);
     }
@@ -30,7 +30,7 @@ public class VarausjarjestelmaSovellus implements CommandLineRunner {
         // tietokantataulu luodaan uudestaan
 
         try (Connection conn = DriverManager.getConnection("jdbc:h2:./hotelliketju", "sa", "")) {
-            conn.prepareStatement("DROP TABLE Asiakas, Varaus, Tyyppi, Huone, Lisavaruste, VarausHuone, VarausLisavaruste  IF EXISTS;").executeUpdate();
+            conn.prepareStatement("DROP TABLE Asiakas, Varaus, Tyyppi, Huone, Lisavaruste, VarausHuone IF EXISTS;").executeUpdate();
             conn.prepareStatement("CREATE TABLE Asiakas (\n "
                                 + "asiakasnumero INTEGER PRIMARY KEY AUTO_INCREMENT,\n "
                                 + "nimi VARCHAR(50),\n "
@@ -40,31 +40,25 @@ public class VarausjarjestelmaSovellus implements CommandLineRunner {
                                 + "CREATE TABLE Varaus (\n "
                                 + "varausnumero INTEGER PRIMARY KEY AUTO_INCREMENT,\n "
                                 + "asiakasnumero INTEGER NOT NULL,\n "
-                                + "alkupvm VARCHAR(10) NOT NULL,\n "
-                                + "loppupvm VARCHAR(10) NOT NULL,\n "
+                                + "alkupvm VARCHAR(16) NOT NULL,\n "
+                                + "loppupvm VARCHAR(16) NOT NULL,\n "
                                 + "FOREIGN KEY (asiakasnumero) REFERENCES Asiakas(asiakasnumero));\n "
 
                                 + "CREATE TABLE Huone (\n "
                                 + "huonenumero INTEGER PRIMARY KEY,\n "
                                 + "tyyppi VARCHAR(20),\n "
-                                + "paivahinta NUMERIC(9,2));\n "
+                                + "paivahinta INTEGER);\n "
 
                                 + "CREATE TABLE Lisavaruste (\n "
-                                + "varuste_id INTEGER AUTO_INCREMENT PRIMARY KEY,\n "
-                                + "nimi VARCHAR(20),\n "
-                                + "hinta NUMERIC(6,2));\n "
-
-                                + "CREATE TABLE VarausLisavaruste (\n "
+                                + "id INTEGER AUTO_INCREMENT PRIMARY KEY,\n "
                                 + "varausnumero INTEGER,\n "
-                                + "varuste_id INTEGER,\n "
-                                + "PRIMARY KEY (varausnumero, varuste_id),\n "
-                                + "FOREIGN KEY (varausnumero) REFERENCES Varaus(varausnumero),\n "
-                                + "FOREIGN KEY (varuste_id) REFERENCES Lisavaruste(varuste_id)); \n "
+                                + "nimi VARCHAR(20),\n "
+                                + "FOREIGN KEY (varausnumero) REFERENCES Varaus(varausnumero));\n "
 
                                 + "CREATE TABLE VarausHuone (\n "
                                 + "varausnumero INTEGER,\n "
                                 + "huonenumero INTEGER,\n "
-                                + "yhteishinta NUMERIC(9,2),\n "
+                                + "yhteishinta INTEGER,\n "
                                 + "PRIMARY KEY(varausnumero, huonenumero),\n "
                                 + "FOREIGN KEY (varausnumero) REFERENCES Varaus(varausnumero),\n "
                                 + "FOREIGN KEY (huonenumero) REFERENCES Huone(huonenumero));\n "

@@ -41,5 +41,10 @@ public class Lisavaruste {
     public void setVaruste_id(Integer varuste_id) {
         this.varuste_id = varuste_id;
     }
-    
+
+    @Override
+    public String toString() {
+        return this.getNimi(); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }
