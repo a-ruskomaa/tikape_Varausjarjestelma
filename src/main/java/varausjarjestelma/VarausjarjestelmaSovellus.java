@@ -42,6 +42,7 @@ public class VarausjarjestelmaSovellus implements CommandLineRunner {
                                 + "asiakasnumero INTEGER NOT NULL,\n "
                                 + "alkupvm VARCHAR(16) NOT NULL,\n "
                                 + "loppupvm VARCHAR(16) NOT NULL,\n "
+                                + "yhteishinta INTEGER,\n "
                                 + "FOREIGN KEY (asiakasnumero) REFERENCES Asiakas(asiakasnumero));\n "
 
                                 + "CREATE TABLE Huone (\n "
@@ -58,7 +59,6 @@ public class VarausjarjestelmaSovellus implements CommandLineRunner {
                                 + "CREATE TABLE VarausHuone (\n "
                                 + "varausnumero INTEGER,\n "
                                 + "huonenumero INTEGER,\n "
-                                + "yhteishinta INTEGER,\n "
                                 + "PRIMARY KEY(varausnumero, huonenumero),\n "
                                 + "FOREIGN KEY (varausnumero) REFERENCES Varaus(varausnumero),\n "
                                 + "FOREIGN KEY (huonenumero) REFERENCES Huone(huonenumero));\n "
