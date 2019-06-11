@@ -138,12 +138,12 @@ public class Varaus {
             str.append(huoneet.size() + " huonetta.");
         }
         str.append(" Huoneet: \n");
-        int yhteishinta = 0;
+        int total = 0;
         for (Huone huone : huoneet) {
             str.append("\t" + huone + "\n");
-            yhteishinta += huone.getPaivahinta() * paivia;
+            total += huone.getPaivahinta() * paivia;
         }
-        str.append("\tYhteensä: " + yhteishinta + " euroa \n");
+        str.append("\tYhteensä: " + total + " euroa \n");
         return str.toString();
     }
 }

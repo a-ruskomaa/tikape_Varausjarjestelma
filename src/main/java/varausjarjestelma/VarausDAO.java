@@ -75,7 +75,8 @@ public class VarausDAO implements DAO<Varaus, Integer> {
             }
         });
         
-        //Lisätään tietokantaan koko huonevarauksen yhteishinta
+        // lisätään tietokantaan koko huonevarauksen yhteishinta
+        // tämän olisi saanut toteutettua javassa jokseenkin suoraviivaisemmin, toteutus tehtiin SQL:ssä lähinnä harjoitusmielessä
 
         jdbcTemplate.update("WITH Hinnat AS (SELECT paivahinta FROM Huone "
                 + "JOIN VarausHuone ON Huone.huonenumero = VarausHuone.huonenumero "
@@ -158,8 +159,7 @@ public class VarausDAO implements DAO<Varaus, Integer> {
         HashMap<Integer, Varaus> varauksetMap = new HashMap<>();
 
         //Haetaan tietokannasta tiedot varauksista, talletetaan äsken luotuun tauluun muodossa varausnumero=Varaus
-        jdbcTemplate.query("SELECT * FROM Varaus"
-                + " JOIN VarausHuone ON Varaus.varausnumero = VarausHuone.varausnumero;", (rs, rowNum)
+        jdbcTemplate.query("SELECT * FROM Varaus;", (rs, rowNum)
                 -> varauksetMap.putIfAbsent(rs.getInt("varausnumero"),
                         new Varaus(rs.getInt("varausnumero"), AsiakasDAO.read(rs.getInt("asiakasnumero")), LocalDate.parse(rs.getString("alkupvm")), LocalDate.parse(rs.getString("loppupvm")))));
 
@@ -168,7 +168,9 @@ public class VarausDAO implements DAO<Varaus, Integer> {
                 + "JOIN VarausHuone ON Varaus.varausnumero = VarausHuone.varausnumero\n"
                 + "JOIN Huone ON Huone.huonenumero = VarausHuone.huonenumero;");
 
-        //Etsitään varaukset sisältävästä hajautustaulusta käsiteltävän rivin varausnumeroa vastaava varaus, lisätään rivin tiedoista luotu huone varaukseen
+        //käydään läpi varausten ja huoneiden tiedot sisältävä lista riveittäin
+        //etsitään varaukset sisältävästä hajautustaulusta käsiteltävän rivin varausnumeroa vastaava varaus
+        //lisätään rivin tiedoista luotu huone varaukseen
         for (Map rivi : huoneet) {
             varauksetMap.get((Integer) rivi.get("varausnumero")).addHuone(new Huone((Integer) rivi.get("huonenumero"), (String) rivi.get("tyyppi"), (Integer) rivi.get("paivahinta")));
         }
@@ -189,6 +191,7 @@ public class VarausDAO implements DAO<Varaus, Integer> {
     }
 
     public List<Huone> search(LocalDateTime alkupvm, LocalDateTime loppupvm) throws SQLException {
+        //muutetaan parametreina saadut LocalDateTime-tyyppiset päivämäärät merkkijonomuotoon
         String alku = alkupvm.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         String loppu = loppupvm.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 
