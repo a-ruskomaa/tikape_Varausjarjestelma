@@ -2,4 +2,4 @@
 
 Helsingin yliopiston "Tietokantojen perusteet" -kurssin harjoitustyö v. 2019.
 
-Ei vastaa tämän hetkistä osaamisen tasoa.
+Ohjelmakoodin tyyli ja sisältö vastaavat kurssin käytänteitä ja tehtävänantoa.
