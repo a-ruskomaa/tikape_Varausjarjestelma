@@ -2,4 +2,4 @@
 
 Helsingin yliopiston "Tietokantojen perusteet" -kurssin harjoitustyö v. 2019.
 
-Ohjelmakoodin tyyli ja sisältö vastaavat kurssin käytänteitä ja tehtävänantoa.
+Ohjelmakoodin tyyli ja sisältö vastaavat kurssin käytänteitä ja tehtävänantoa, eivätkä vastaa nykyisiä näkemyksiäni.
